@@ -1,4 +1,5 @@
-﻿using ReservaCanchas_Maui.InitViews;
+﻿using ReservaCanchas_Maui.AdminViews;
+using ReservaCanchas_Maui.Views;
 
 namespace ReservaCanchas_Maui
 {
@@ -8,7 +9,7 @@ namespace ReservaCanchas_Maui
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new Page1());
+            MainPage = new AppShell();
         }
     }
 }
