@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReservaCanchas_Maui.InitViews.Page1"
+             Title="Page1">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <!-- Imagen 1 -->
+            <Frame BorderColor="Gray" CornerRadius="20" HasShadow="True" Padding="0">
+                <Grid>
+                    <Image Source="complejo_uno.png" Aspect="AspectFill" />
+                    <Label Text="Complejo 1"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           BackgroundColor="Black"
+                           Opacity="0.6" />
+                </Grid>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ImageTappedCommand}" CommandParameter="Image1" />
+                </Frame.GestureRecognizers>
+            </Frame>
+
+            <!-- Imagen 2 -->
+            <Frame BorderColor="Gray" CornerRadius="20" HasShadow="True" Padding="0">
+                <Grid>
+                    <Image Source="complejo_dos.jpg" Aspect="AspectFill" />
+                    <Label Text="Complejo 2"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           BackgroundColor="Black"
+                           Opacity="0.6" />
+                </Grid>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ImageTappedCommand}" CommandParameter="Image2" />
+                </Frame.GestureRecognizers>
+            </Frame>
+
+            <!-- Agrega más imágenes según sea necesario -->
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

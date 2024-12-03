@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReservaCanchas_Maui.InitViews.Page2"
+             Title="Page2">
+    <ScrollView>
+        <Grid Padding="10" RowSpacing="15" ColumnSpacing="10">
+            <!-- Definir filas y columnas -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Fila 1 -->
+            <Frame Grid.Row="0" Grid.Column="0" BorderColor="Gray" CornerRadius="10" HasShadow="True" Padding="0">
+                <Image Source="cancha_uno.png" Aspect="AspectFill" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ImageTappedCommand}" CommandParameter="Image1" />
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Label Grid.Row="1" Grid.Column="0"
+                   Text="Texto Imagen 1"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="14"
+                   TextColor="Black" />
+
+            <Frame Grid.Row="0" Grid.Column="1" BorderColor="Gray" CornerRadius="10" HasShadow="True" Padding="0">
+                <Image Source="cancha_dos.jpg" Aspect="AspectFill" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ImageTappedCommand}" CommandParameter="Image2" />
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Label Grid.Row="1" Grid.Column="1"
+                   Text="Texto Imagen 2"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="14"
+                   TextColor="Black" />
+
+            <!-- Fila 2 -->
+            <Frame Grid.Row="2" Grid.Column="0" BorderColor="Gray" CornerRadius="10" HasShadow="True" Padding="0">
+                <Image Source="cancha_tres.jpg" Aspect="AspectFill" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ImageTappedCommand}" CommandParameter="Image3" />
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Label Grid.Row="3" Grid.Column="0"
+                   Text="Texto Imagen 3"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="14"
+                   TextColor="Black" />
+
+            <Frame Grid.Row="2" Grid.Column="1" BorderColor="Gray" CornerRadius="10" HasShadow="True" Padding="0">
+                <Image Source="cancha_cuatro.jpg" Aspect="AspectFill" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ImageTappedCommand}" CommandParameter="Image4" />
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Label Grid.Row="3" Grid.Column="1"
+                   Text="Texto Imagen 4"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="14"
+                   TextColor="Black" />
+        </Grid>
+    </ScrollView>
+</ContentPage>

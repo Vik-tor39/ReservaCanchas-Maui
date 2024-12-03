@@ -1,4 +1,6 @@
-﻿namespace ReservaCanchas_Maui
+﻿using ReservaCanchas_Maui.InitViews;
+
+namespace ReservaCanchas_Maui
 {
     public partial class App : Application
     {
@@ -6,7 +8,7 @@
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new NavigationPage(new Page1());
         }
     }
 }
