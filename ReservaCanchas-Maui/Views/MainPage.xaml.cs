@@ -1,4 +1,4 @@
-﻿namespace ReservaCanchas_Maui
+﻿namespace ReservaCanchas_Maui.Views
 {
     public partial class MainPage : ContentPage
     {

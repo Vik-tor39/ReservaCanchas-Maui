@@ -1,6 +1,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ReservaCanchas_Maui.Register"
+             x:Class="ReservaCanchas_Maui.Views.Register"
              BackgroundColor="#f3f4f6"
              Title="Registro">
 
@@ -65,6 +65,7 @@
                         BackgroundColor="#4CAF50"
                         TextColor="White"
                         FontAttributes="Bold"
+                        Clicked="OnAniadirUsuario"
                         CornerRadius="10"
                         HeightRequest="50" />
 
@@ -76,10 +77,10 @@
                        FontSize="14"
                        TextColor="#666" />
                 <Label Text="Iniciar Sesion"
-           FontSize="14"
-           TextColor="#4CAF50"
-           FontAttributes="Bold"
-           TextDecorations="Underline">
+                       FontSize="14"
+                       TextColor="#4CAF50"
+                       FontAttributes="Bold"
+                       TextDecorations="Underline">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnLoginTapped" />
                     </Label.GestureRecognizers>

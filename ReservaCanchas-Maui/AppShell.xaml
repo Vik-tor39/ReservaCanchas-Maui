@@ -27,7 +27,9 @@
         Title="Cerrar Sesión"
         Icon="dotnet_bot.png">
         <ShellContent
-            Title="Cerrar Sesión"/>
+            Title="Cerrar Sesión"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="ComplejosPage" />
     </FlyoutItem>
 
 </Shell>
