@@ -4,42 +4,27 @@
              x:Class="ReservaCanchas_Maui.AdminViews.GestionarCancha"
              Title="GestionarCancha">
     <ScrollView>
-        <StackLayout x:Name="GestionarStackLayout" Padding="20" Spacing="15">
-            <!-- Detalles de la Cancha -->
-            <Label Text="Detalles de la Cancha" FontSize="Large" FontAttributes="Bold" />
-            <Label Text="Nombre:" FontAttributes="Bold" />
-            <Label x:Name="NombreCanchaLabel" />
+        <StackLayout Padding="20" Spacing="15">
+            <Label Text="Nombre de la Cancha" />
+            <Entry x:Name="NombreCanchaEntry" Placeholder="Introduce el nombre de la cancha" />
 
-            <Image x:Name="ImagenCanchaImage" HeightRequest="200" Aspect="AspectFill" />
+            <Label Text="Número de Jugadores" />
+            <Entry x:Name="NumeroJugadoresEntry" Keyboard="Numeric" Placeholder="Máximo número de jugadores" />
 
-            <Label Text="Jugadores Máximos:" FontAttributes="Bold" />
-            <Label x:Name="NumeroJugadoresLabel" />
+            <Label Text="Precio por Hora" />
+            <Entry x:Name="PrecioPorHoraEntry" Keyboard="Numeric" Placeholder="Introduce el precio por hora" />
 
-            <Label Text="Horario Disponible:" FontAttributes="Bold" />
-            <Label x:Name="HorarioLabel" />
+            <Label Text="Hora de Apertura" />
+            <TimePicker x:Name="HoraAperturaPicker" />
 
-            <Label Text="Precio por Hora:" FontAttributes="Bold" />
-            <Label x:Name="PrecioPorHoraLabel" />
+            <Label Text="Hora de Cierre" />
+            <TimePicker x:Name="HoraCierrePicker" />
 
-            <!-- Reservación -->
-            <Label Text="Reservar Cancha" FontSize="Large" FontAttributes="Bold" />
+            <Label Text="Imagen de la Cancha" />
+            <Entry x:Name="ImagenCanchaEntry" Placeholder="URL de la imagen de la cancha" />
 
-            <Label Text="Nombre de Usuario:" FontAttributes="Bold" />
-            <Label x:Name="UsuarioName" />
+            <Button Text="Guardar cambios" Clicked="OnGuardarCambiosClicked" />
 
-            <Label Text="Correo:" FontAttributes="Bold"/>
-            <Label x:Name="UsuarioCorreo" />
-
-            <Label Text="Fecha de Reservación" />
-            <DatePicker x:Name="FechaPicker" MinimumDate="{Binding FechaActual}" />
-
-            <Label Text="Hora de Inicio" />
-            <TimePicker x:Name="HoraInicioPicker" />
-
-            <Label Text="Hora de Fin" />
-            <TimePicker x:Name="HoraFinPicker" />
-
-            <Button Text="Guardar Cambios" Clicked="OnGuardarCambiosClicked" />
             <Button Text="Regresar" Clicked="OnRegresarClicked" />
         </StackLayout>
     </ScrollView>

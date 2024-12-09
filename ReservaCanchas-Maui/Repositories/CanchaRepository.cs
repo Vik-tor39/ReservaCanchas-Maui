@@ -24,10 +24,24 @@ namespace ReservaCanchas_Maui.Repositories
 
             Console.WriteLine($"Ruta completa del archivo JSON: {_fileName}");
         }
-        public void ActualizarCancha(Cancha cancha)
+        public void ActualizarCancha(Cancha canchaActualizada)
         {
-            throw new NotImplementedException();
+            List<Cancha> canchas = ObtenerTodasLasCanchas();
+
+            Cancha canchaExistente = canchas.FirstOrDefault(c => c.IdCancha == canchaActualizada.IdCancha);
+            if (canchaExistente != null)
+            {
+                canchaExistente.NombreCancha = canchaActualizada.NombreCancha;
+                canchaExistente.NumeroJugadores = canchaActualizada.NumeroJugadores;
+                canchaExistente.PrecioPorHora = canchaActualizada.PrecioPorHora;
+                canchaExistente.HoraApertura = canchaActualizada.HoraApertura;
+                canchaExistente.HoraCierre = canchaActualizada.HoraCierre;
+                canchaExistente.ImagenCancha = canchaActualizada.ImagenCancha;
+
+                File.WriteAllText(_fileName, JsonSerializer.Serialize(canchas, new JsonSerializerOptions { WriteIndented = true }));
+            }
         }
+
 
         public void CrearCancha(Cancha cancha)
         {
@@ -52,8 +66,10 @@ namespace ReservaCanchas_Maui.Repositories
 
         public Cancha ObtenerCanchaPorId(int idCancha)
         {
-            throw new NotImplementedException();
+            List<Cancha> canchas = ObtenerTodasLasCanchas();
+            return canchas.FirstOrDefault(c => c.IdCancha == idCancha);
         }
+
 
         public List<Cancha> ObtenerCanchasPorComplejo()
         {

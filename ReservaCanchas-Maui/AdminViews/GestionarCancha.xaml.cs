@@ -5,23 +5,49 @@ namespace ReservaCanchas_Maui.AdminViews;
 
 public partial class GestionarCancha : ContentPage
 {
-    public Usuario _usuario;
-    public Complejo _complejo;
-    public Cancha _cancha;
-    public ReservaRepositroy _repository;
-    public Reserva _reserva;
-    public GestionarCancha()
-	{
-		//InitializeComponent();
-	}
+    private CanchaRepository _repository;
+    private Cancha _cancha;
 
-    private void OnGuardarCambiosClicked(object sender, EventArgs e)
+    public GestionarCancha(int idCancha)
     {
-
+        InitializeComponent();
+        _repository = new CanchaRepository();
+        _cancha = _repository.ObtenerCanchaPorId(idCancha);
+        CargarDetallesCancha();
     }
 
-    private void OnRegresarClicked(object sender, EventArgs e)
+    private void CargarDetallesCancha()
     {
+        if (_cancha != null)
+        {
+            NombreCanchaEntry.Text = _cancha.NombreCancha;
+            NumeroJugadoresEntry.Text = _cancha.NumeroJugadores.ToString();
+            PrecioPorHoraEntry.Text = _cancha.PrecioPorHora.ToString();
+            HoraAperturaPicker.Time = _cancha.HoraApertura;
+            HoraCierrePicker.Time = _cancha.HoraCierre;
+            ImagenCanchaEntry.Text = _cancha.ImagenCancha;
+        }
+    }
 
+    private async void OnGuardarCambiosClicked(object sender, EventArgs e)
+    {
+        _cancha.NombreCancha = NombreCanchaEntry.Text;
+        _cancha.NumeroJugadores = int.TryParse(NumeroJugadoresEntry.Text, out int jugadores) ? jugadores : 0;
+        _cancha.PrecioPorHora = decimal.TryParse(PrecioPorHoraEntry.Text, out decimal precio) ? precio : 0;
+        _cancha.HoraApertura = HoraAperturaPicker.Time;
+        _cancha.HoraCierre = HoraCierrePicker.Time;
+        _cancha.ImagenCancha = ImagenCanchaEntry.Text;
+
+        _repository.ActualizarCancha(_cancha);
+
+        await DisplayAlert("Éxito", "La cancha se ha actualizado correctamente.", "OK");
+        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+        await Navigation.PopAsync();
+    }
+
+
+    private async void OnRegresarClicked(object sender, EventArgs e)
+    {
+        await Navigation.PopAsync(); // Regresa a la página anterior
     }
 }

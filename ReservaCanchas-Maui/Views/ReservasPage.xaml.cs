@@ -83,6 +83,7 @@ public partial class ReservasPage : ContentPage
                 BackgroundColor = Colors.Purple,
                 TextColor = Colors.White,
                 Margin = new Thickness(0, 10),
+                CommandParameter = _cancha.IdCancha
             };
 
             botonCanchaAdmin.Clicked += OnAdministracionCanchaAdmin;
@@ -94,7 +95,11 @@ public partial class ReservasPage : ContentPage
 
     private async void OnAdministracionCanchaAdmin(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new GestionarCancha());
+        // Obtener el IdCancha del CommandParameter del botón
+        int idCancha = (sender as Button)?.CommandParameter as int? ?? 0;
+
+        // Navegar a la página de gestionar cancha con el IdCancha
+        await Navigation.PushAsync(new GestionarCancha(idCancha));
     }
 
 }

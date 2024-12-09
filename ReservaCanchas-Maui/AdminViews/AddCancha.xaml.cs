@@ -27,7 +27,7 @@ public partial class AddCancha : ContentPage
             IdComplejo = _complejo.IdComplejo
         };
 		_repository.CrearCancha(_cancha);
-        await DisplayAlert("Éxito", "Cancha guardado correctamente.", "OK");
+        await DisplayAlert("Éxito", "Cancha guardada correctamente.", "OK");
         Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
         await Navigation.PopAsync();
     }
