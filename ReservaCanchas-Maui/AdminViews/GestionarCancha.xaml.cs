@@ -46,8 +46,34 @@ public partial class GestionarCancha : ContentPage
     }
 
 
-    private async void OnRegresarClicked(object sender, EventArgs e)
+    private async void OnDeleteClicked(object sender, EventArgs e)
     {
-        await Navigation.PopAsync(); // Regresa a la página anterior
+        try
+        {
+            // Mostrar alerta de confirmación
+            bool confirmacion = await DisplayAlert(
+                "Confirmación",
+                "¿Estás seguro de que deseas eliminar esta cancha?",
+                "Sí",
+                "No"
+            );
+
+            // Si el usuario confirma, procede con la eliminación
+            if (confirmacion)
+            {
+                // Llama al repositorio para eliminar la cancha
+                _repository.EliminarCancha(_cancha.IdCancha);
+
+                // Opcional: Mostrar mensaje de éxito
+                await DisplayAlert("Éxito", "Cancha eliminada correctamente.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Mostrar mensaje de error
+            await DisplayAlert("Error", "Ocurrió un error al intentar eliminar el usuario.", "OK");
+        }
+        Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
+        await Navigation.PopAsync();
     }
 }
