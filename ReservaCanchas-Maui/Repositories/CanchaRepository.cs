@@ -61,7 +61,35 @@ namespace ReservaCanchas_Maui.Repositories
 
         public void EliminarCancha(int idCancha)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (File.Exists(_fileName))
+                {
+                    string contenidoJson = File.ReadAllText(_fileName);
+                    var canchas = JsonSerializer.Deserialize<List<Cancha>>(contenidoJson) ?? new List<Cancha>();
+
+                    var canchaAEliminar = canchas.FirstOrDefault(c => c.IdCancha == idCancha);
+                    if (canchaAEliminar != null)
+                    {
+                        canchas.Remove(canchaAEliminar);
+                        File.WriteAllText(_fileName, JsonSerializer.Serialize(canchas, new JsonSerializerOptions { WriteIndented = true }));
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Cancha con ID {idCancha} no encontrado.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("El archivo JSON no existe.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error en EliminarUsuario: {ex.Message}");
+                Console.WriteLine(ex.StackTrace);
+                throw; // Re-lanzar para propagar el error si es necesario
+            }
         }
 
         public Cancha ObtenerCanchaPorId(int idCancha)
