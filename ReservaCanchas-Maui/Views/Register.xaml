@@ -89,11 +89,7 @@
             </VerticalStackLayout>
 
             <!-- Volver al Login -->
-            <HorizontalStackLayout 
-                HorizontalOptions="Center" 
-                Spacing="5" 
-                Margin="10 0 0 0">
-                
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" TranslationY="10">
                 <Label Text="¿Ya tienes cuenta?"
                        FontSize="14"
                        TextColor="#666" />
