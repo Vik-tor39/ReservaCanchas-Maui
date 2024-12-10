@@ -23,7 +23,7 @@
             <Label Text="Bienvenido"
                    FontSize="32"
                    HorizontalTextAlignment="Center"
-                   TextColor="#333333"
+                   TextColor="#1F1E1E"
                    FontAttributes="Bold" 
                    TranslationY="-20"/>
 

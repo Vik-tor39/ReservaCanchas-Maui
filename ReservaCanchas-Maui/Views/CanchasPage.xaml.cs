@@ -43,7 +43,7 @@ public partial class CanchasPage : ContentPage
     }
     private void GenerarBotonAdministrador()
     {
-        // Botón específico para adminstrador
+        // Botón específico para administrador
         if (_usuario.Tipo == TipoDeUsuario.Administrador &&
             _usuario.ComplejosAdministrados.Contains(_complejo.IdComplejo))
         {
@@ -57,9 +57,12 @@ public partial class CanchasPage : ContentPage
 
             botonAdmin.Clicked += OnAdministracionComplejoAdmin;
 
-            CanchasDetails.Children.Add(botonAdmin);
+            // Añadir el botón al contenedor y hacerlo visible
+            AdminButtonContainer.Children.Add(botonAdmin);
+            AdminButtonContainer.IsVisible = true;
         }
     }
+
 
     private async void OnAdministracionComplejoAdmin(object sender, EventArgs e)
     {

@@ -24,7 +24,7 @@
             <Label Text="Crea tu cuenta"
                    FontSize="32"
                    HorizontalTextAlignment="Center"
-                   TextColor="#333"
+                   TextColor="#1F1E1E"
                    FontAttributes="Bold" />
 
             <!-- Formulario de Registro -->

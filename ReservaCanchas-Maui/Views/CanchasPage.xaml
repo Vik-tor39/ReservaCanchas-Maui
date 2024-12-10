@@ -2,20 +2,96 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservaCanchas_Maui.Views.CanchasPage"
-             Title="CanchasPage">
-    <StackLayout x:Name="CanchasDetails" Padding="20">
-        <CollectionView x:Name="CanchasCollection" SelectionMode="Single" SelectionChanged="OnCanchaSelected">
+             Title="Lista de Canchas">
+
+    <!-- Fondo con degradado -->
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#007BFF" Offset="0.0" />
+            <GradientStop Color="#7FDBFF" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <!-- Contenido principal -->
+    <Grid Padding="20">
+        <!-- Definición de filas -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Texto inicial -->
+        <Label 
+            Text="Selecciona una cancha"
+            FontSize="24"
+            HorizontalTextAlignment="Center"
+            TextColor="#1F1E1E"
+            FontAttributes="Bold"
+            Margin="0,0,0,20" 
+            Grid.Row="0" />
+
+        <!-- CollectionView con las cartas -->
+        <CollectionView 
+            x:Name="CanchasCollection"
+            SelectionMode="Single"
+            SelectionChanged="OnCanchaSelected"
+            Grid.Row="1">
+            <CollectionView.ItemsLayout>
+                <!-- Diseño tipo grid con dos columnas y separación -->
+                <GridItemsLayout 
+                    Orientation="Vertical" 
+                    Span="2"
+                    HorizontalItemSpacing="7"
+                    VerticalItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10" Orientation="Horizontal">
-                        <Image Source="{Binding ImagenCancha}" WidthRequest="50" HeightRequest="50" />
-                        <StackLayout Orientation="Vertical" Margin="10,0,0,0">
-                            <Label Text="{Binding NombreCancha}" />
-                            <Label Text="{Binding PrecioPorHora, StringFormat='Precio: {0:C}'}" FontSize="Small" />
+                    <Frame 
+                        Padding="0"
+                        CornerRadius="8"
+                        BackgroundColor="White"
+                        HasShadow="True"
+                        BorderColor="Transparent"
+                        Margin="0">
+                        <StackLayout>
+                            <!-- Imagen de la cancha -->
+                            <Image 
+                                Source="{Binding ImagenCancha}"
+                                Aspect="AspectFill"
+                                HeightRequest="100"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="Start" />
+                            <!-- Nombre de la cancha -->
+                            <Label 
+                                Text="{Binding NombreCancha}"
+                                FontSize="18"
+                                HorizontalTextAlignment="Center"
+                                TextColor="#333"
+                                FontAttributes="Bold"
+                                Margin="0,10,0,5" />
+                            <!-- Precio por hora -->
+                            <Label 
+                                Text="{Binding PrecioPorHora, StringFormat='Precio hora: {0:C}'}"
+                                FontSize="14"
+                                HorizontalTextAlignment="Center"
+                                TextColor="#555" 
+                                Margin="0, 5, 0, 10"/>
                         </StackLayout>
-                    </StackLayout>
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </StackLayout>
+
+        <!-- Contenedor del botón de administración -->
+        <StackLayout 
+            x:Name="AdminButtonContainer"
+            Grid.Row="2"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Margin="0, 20, 0, 0"
+            IsVisible="False">
+        </StackLayout>
+    </Grid>
 </ContentPage>

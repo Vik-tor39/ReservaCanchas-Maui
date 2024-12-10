@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservaCanchas_Maui.Views.ComplejosPage"
-             Title="ComplejosPage">
+             Title="Lista de Complejos">
 
-    <!-- Color de Background -->
+    <!-- Fondo con degradado -->
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#007BFF" Offset="0.0" />
@@ -12,16 +11,60 @@
         </LinearGradientBrush>
     </ContentPage.Background>
 
-    <StackLayout x:Name="Complejitos" Padding="20">
-        <CollectionView x:Name="ComplejosCollection" SelectionMode="Single" SelectionChanged="OnComplejoSelected">
+    <Grid x:Name="Complejitos" Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Texto inicial -->
+        <Label Text="Selecciona un complejo"
+               FontSize="24"
+               HorizontalTextAlignment="Center"
+               TextColor="#1F1E1E"
+               FontAttributes="Bold"
+               Grid.Row="0"
+               Margin="0,0,0,20" />
+
+        <!-- CollectionView con las cartas -->
+        <CollectionView x:Name="ComplejosCollection"
+                        SelectionMode="Single"
+                        SelectionChanged="OnComplejoSelected"
+                        Grid.Row="1">
+            <CollectionView.ItemsLayout>
+                <!-- Diseño tipo grid con dos columnas y separación -->
+                <GridItemsLayout Orientation="Vertical" Span="2"
+                                 HorizontalItemSpacing="7"
+                                 VerticalItemSpacing="10" />
+                    <!-- Espacio entre filas -->
+            </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10" Orientation="Horizontal">
-                        <Image Source="{Binding ImagenComplejo}" WidthRequest="50" HeightRequest="50" />
-                        <Label Text="{Binding NombreComplejo}" VerticalOptions="Center" Margin="10,0,0,0" />
-                    </StackLayout>
+                    <Frame Padding="0"
+                           CornerRadius="8"
+                           BackgroundColor="White"
+                           HasShadow="True" 
+                           BorderColor="Transparent"
+                           Margin="0">
+                        <StackLayout>
+                            <!-- Imagen del complejo -->
+                            <Image Source="{Binding ImagenComplejo}"
+                                   Aspect="AspectFill"
+                                   HeightRequest="100"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="Start"/>
+                            <!-- Nombre del complejo -->
+                            <Label Text="{Binding NombreComplejo}"
+                                   FontSize="18"
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="#333"
+                                   FontAttributes="Bold"
+                                   Margin="0,10,0,10" />
+                        </StackLayout>
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </StackLayout>
+    </Grid>
 </ContentPage>
