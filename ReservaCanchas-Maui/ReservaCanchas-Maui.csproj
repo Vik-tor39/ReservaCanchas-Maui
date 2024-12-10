@@ -61,6 +61,7 @@
 	  <None Remove="Data\complejos.json" />
 	  <None Remove="Data\reservas.json" />
 	  <None Remove="Data\usuarios.json" />
+	  <None Remove="Resources\Images\logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>

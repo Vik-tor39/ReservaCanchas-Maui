@@ -4,8 +4,21 @@
              BackgroundColor="#f3f4f6"
              Title="Registro">
 
+    <!-- Color de Background -->
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#007BFF" Offset="0.0" />
+            <GradientStop Color="#7FDBFF" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="25">
+        <VerticalStackLayout Padding="20">
+
+            <!-- Logo -->
+            <Image Source="logo.png" 
+               HeightRequest="150" 
+               HorizontalOptions="Center" />
 
             <!-- Título -->
             <Label Text="Crea tu cuenta"
@@ -14,11 +27,6 @@
                    TextColor="#333"
                    FontAttributes="Bold" />
 
-            <Label Text="Completa los campos para registrarte"
-                   FontSize="16"
-                   HorizontalTextAlignment="Center"
-                   TextColor="#666" />
-
             <!-- Formulario de Registro -->
             <VerticalStackLayout Spacing="15" Padding="0,30,0,0">
 
@@ -26,7 +34,7 @@
                 <Entry x:Name="NombreEntry"
                        Placeholder="Nombre Completo"
                        TextColor="#333"
-                       PlaceholderColor="#999"
+                       PlaceholderColor="#666"
                        BackgroundColor="White"
                        HeightRequest="50"
                        Margin="0,0,0,10" />
@@ -36,7 +44,7 @@
                        Placeholder="Correo Electrónico"
                        Keyboard="Email"
                        TextColor="#333"
-                       PlaceholderColor="#999"
+                       PlaceholderColor="#666"
                        BackgroundColor="White"
                        HeightRequest="50"
                        Margin="0,0,0,10" />
@@ -46,7 +54,7 @@
                        Placeholder="Contraseña"
                        IsPassword="True"
                        TextColor="#333"
-                       PlaceholderColor="#999"
+                       PlaceholderColor="#666"
                        BackgroundColor="White"
                        HeightRequest="50"
                        Margin="0,0,0,10" />
@@ -56,14 +64,15 @@
                        Placeholder="Confirmar Contraseña"
                        IsPassword="True"
                        TextColor="#333"
-                       PlaceholderColor="#999"
+                       PlaceholderColor="#666"
                        BackgroundColor="White"
                        HeightRequest="50" />
 
                 <!-- CheckBox para Mostrar Contraseña -->
                 <HorizontalStackLayout Spacing="10">
                     <CheckBox x:Name="MostrarPassow" 
-                              CheckedChanged="MostrarPasswordChanged" />
+                              CheckedChanged="MostrarPasswordChanged" 
+                              Color="#fff"/>
                     <Label Text="Mostrar Contraseña"
                            VerticalOptions="Center"
                            TextColor="#666" />
@@ -71,7 +80,7 @@
 
                 <!-- Botón de Registro -->
                 <Button Text="Registrarme"
-                        BackgroundColor="#4CAF50"
+                        BackgroundColor="#007BFF"
                         TextColor="White"
                         FontAttributes="Bold"
                         CornerRadius="10"
@@ -80,15 +89,18 @@
             </VerticalStackLayout>
 
             <!-- Volver al Login -->
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+            <HorizontalStackLayout 
+                HorizontalOptions="Center" 
+                Spacing="5" 
+                Margin="10 0 0 0">
+                
                 <Label Text="¿Ya tienes cuenta?"
                        FontSize="14"
                        TextColor="#666" />
                 <Label Text="Iniciar Sesión"
                        FontSize="14"
-                       TextColor="#4CAF50"
-                       FontAttributes="Bold"
-                       TextDecorations="Underline">
+                       TextColor="#007BFF"
+                       FontAttributes="Bold">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnLoginTapped" />
                     </Label.GestureRecognizers>
