@@ -11,10 +11,11 @@
         </LinearGradientBrush>
     </ContentPage.Background>
 
-    <Grid x:Name="Complejitos" Padding="20">
+    <Grid Padding="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!-- Texto inicial -->
@@ -36,7 +37,6 @@
                 <GridItemsLayout Orientation="Vertical" Span="2"
                                  HorizontalItemSpacing="7"
                                  VerticalItemSpacing="10" />
-                    <!-- Espacio entre filas -->
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
@@ -44,7 +44,7 @@
                     <Frame Padding="0"
                            CornerRadius="8"
                            BackgroundColor="White"
-                           HasShadow="True" 
+                           HasShadow="True"
                            BorderColor="Transparent"
                            Margin="0">
                         <StackLayout>
@@ -65,6 +65,7 @@
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+            <!-- Contenedor para los botones de superusuario -->
         </CollectionView>
     </Grid>
 </ContentPage>

@@ -7,22 +7,24 @@ namespace ReservaCanchas_Maui.Views;
 
 public partial class ComplejosPage : ContentPage
 {
-    public ComplejoRepository _repository;
-    public List<Complejo> _complejos;
-    public Usuario _usuario;
-	public ComplejosPage(Usuario usuario)
-	{
-		InitializeComponent();
+    private ComplejoRepository _repository;
+    private List<Complejo> _complejos;
+    private Usuario _usuario;
+
+    public ComplejosPage(Usuario usuario)
+    {
+        InitializeComponent();
         _repository = new ComplejoRepository();
         _usuario = usuario;
         CargarComplejos();
-        GenerarBotonSuperUsuario();
-        GenerarBotonSuperUsuario2();
+        GenerarBotonesSuperUsuario();
     }
+
     private void CargarComplejos()
     {
         ComplejosCollection.ItemsSource = _repository.ObtenerTodosLosComplejos();
     }
+
     private async void OnComplejoSelected(object sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection.FirstOrDefault() is Complejo seleccionado)
@@ -31,40 +33,38 @@ public partial class ComplejosPage : ContentPage
             await Navigation.PushAsync(new CanchasPage(seleccionado, _usuario));
         }
     }
-    private void GenerarBotonSuperUsuario()
+
+    private void GenerarBotonesSuperUsuario()
     {
-         // Botón específico para superusuarios
+        // Generar botones solo si el usuario es un superusuario
         if (_usuario.Tipo == TipoDeUsuario.Superusuario)
         {
-            var botonSuperusuario = new Button
+            // Botón para gestionar complejos
+            var botonGestionarComplejos = new Button
             {
                 Text = "Gestionar Complejos",
-                BackgroundColor = Colors.Purple,
+                BackgroundColor = Color.FromArgb("#007BFF"),
                 TextColor = Colors.White,
                 Margin = new Thickness(0, 10),
             };
+            botonGestionarComplejos.Clicked += OnAdministracionComplejoSuperUser;
 
-            botonSuperusuario.Clicked += OnAdministracionComplejoSuperUser;
-
-            Complejitos.Children.Add(botonSuperusuario);
-        }
-    }
-    private void GenerarBotonSuperUsuario2()
-    {
-        // Botón específico para superusuarios
-        if (_usuario.Tipo == TipoDeUsuario.Superusuario)
-        {
-            var botonSuperusuario = new Button
+            // Botón para gestionar usuarios
+            var botonGestionarUsuarios = new Button
             {
-                Text = "Gestionar Usuario",
-                BackgroundColor = Colors.Purple,
+                Text = "Gestionar Usuarios",
+                BackgroundColor = Color.FromArgb("#007BFF"),
                 TextColor = Colors.White,
                 Margin = new Thickness(0, 10),
             };
+            botonGestionarUsuarios.Clicked += GestionUsuarios;
 
-            botonSuperusuario.Clicked += GestionUsuerr;
+            // Añadir los botones al contenedor
+            SuperUserButtonContainer.Children.Add(botonGestionarComplejos);
+            SuperUserButtonContainer.Children.Add(botonGestionarUsuarios);
 
-            Complejitos.Children.Add(botonSuperusuario);
+            // Hacer visible el contenedor
+            SuperUserButtonContainer.IsVisible = true;
         }
     }
 
@@ -78,7 +78,8 @@ public partial class ComplejosPage : ContentPage
     {
         await Navigation.PushAsync(new AddComplejo());
     }
-    private async void GestionUsuerr(object sender, EventArgs e)
+
+    private async void GestionUsuarios(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new GestionarUsers());
     }
