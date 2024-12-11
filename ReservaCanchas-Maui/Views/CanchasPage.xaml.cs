@@ -50,7 +50,7 @@ public partial class CanchasPage : ContentPage
             var botonAdmin = new Button
             {
                 Text = "Editar Complejo",
-                BackgroundColor = Colors.Purple,
+                BackgroundColor = Color.FromArgb("#007BFF"),
                 TextColor = Colors.White,
                 Margin = new Thickness(0, 10),
             };

@@ -67,5 +67,15 @@
             </CollectionView.ItemTemplate>
             <!-- Contenedor para los botones de superusuario -->
         </CollectionView>
+
+        <!-- Contenedor para los botones de superusuario -->
+        <StackLayout 
+            x:Name="SuperUserButtonContainer"
+            Grid.Row="2"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            Margin="0, 20, 0, 0"
+            IsVisible="False">
+        </StackLayout>
     </Grid>
 </ContentPage>

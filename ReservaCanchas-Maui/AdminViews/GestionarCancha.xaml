@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ReservaCanchas_Maui.AdminViews.GestionarCancha"
-             Title="GestionarCancha">
+             Title="Gestionar Cancha">
 
     <!-- Color de Background -->
     <ContentPage.Background>
@@ -61,8 +61,8 @@
                     Clicked="OnGuardarCambiosClicked" />
 
             <Button Text="Eliminar Cancha" 
-                    BackgroundColor="#F2F2F2"
-                    TextColor="#007BFF"
+                    BackgroundColor="#FF3B30"
+                    TextColor="#F2F2F2"
                     Clicked="OnDeleteClicked" />
         </StackLayout>
     </ScrollView>

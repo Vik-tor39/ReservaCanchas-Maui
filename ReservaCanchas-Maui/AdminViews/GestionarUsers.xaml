@@ -16,16 +16,19 @@
         <VerticalStackLayout Padding="20" Spacing="15">
 
             <!-- Título -->
-            <Frame BackgroundColor="White" CornerRadius="10" Padding="15" HasShadow="True">
-                <Label Text="Gestionar Usuarios"
-                       FontSize="28"
-                       FontAttributes="Bold"
-                       TextColor="#333333"
-                       HorizontalOptions="Center" />
-            </Frame>
+            
+            <Label Text="Gestionar Usuarios"
+                FontSize="28"
+                FontAttributes="Bold"
+                TextColor="#1F1E1E"
+                HorizontalOptions="Center" />
+            
 
             <!-- CollectionView para mostrar los usuarios -->
-            <Frame BackgroundColor="White" CornerRadius="10" Padding="10" HasShadow="True">
+            <Frame BackgroundColor="White" 
+                   CornerRadius="10" 
+                   Padding="10"
+                   HasShadow="True">
                 <CollectionView x:Name="UsuariosCollectionView"
                                 ItemsSource="{Binding Usuarios}"
                                 BackgroundColor="Transparent"

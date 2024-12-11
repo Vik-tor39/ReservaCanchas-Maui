@@ -80,8 +80,8 @@ public partial class ReservasPage : ContentPage
             var botonCanchaAdmin = new Button
             {
                 Text = "Gestionar Cancha",
-                BackgroundColor = Colors.Purple,
-                TextColor = Colors.White,
+                BackgroundColor = Color.FromArgb("#F2F2F2"),
+                TextColor = Color.FromArgb("#007BFF"),
                 Margin = new Thickness(0, 10),
                 CommandParameter = _cancha.IdCancha
             };
