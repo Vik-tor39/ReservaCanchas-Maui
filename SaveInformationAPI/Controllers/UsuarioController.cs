@@ -16,40 +16,41 @@ namespace SaveInformationAPI.Controllers
         [Route("GetAllUsuarios")]
         public ActionResult<IEnumerable<Usuario>> GetAll()
         {
-            var cancha = _repository.ListarUsuarios();
-            return Ok(cancha);
+            var response = _repository.ListarUsuarios();
+            return Ok(response);
         }
 
         [HttpGet]
-        [Route("GetUsuarioById")]
+        [Route("GetUsuarioById/{id}")]
         public ActionResult<Cancha> GetById(int id)
         {
-            var cancha = _repository.VerUsuario(id);
-            return Ok(cancha);
+            var response = _repository.VerUsuario(id);
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("AddNewUsuario")]
-        public ActionResult<Cancha> AddNew(Usuario cancha)
+        public ActionResult<bool> AddNew([FromBody] Usuario usuario)
         {
-            var status = _repository.AgregarUsuario(cancha);
-            return Ok(status);
+            var response = _repository.AgregarUsuario(usuario);
+            return Ok(response);
         }
 
         [HttpPut]
-        [Route("ModifyUsuarioById")]
-        public ActionResult<Cancha> ModifyById(int id, Usuario usuarioActualizado)
+        [Route("ModifyUsuarioById/{id}")]
+        public ActionResult<bool> ModifyById(int id, [FromBody] Usuario usuarioActualizado)
         {
-            var status = _repository.ModificarInformacionUsuario(id, usuarioActualizado);
-            return Ok(status);
+            var response = _repository.ModificarInformacionUsuario(id, usuarioActualizado);
+            return Ok(response);
         }
 
         [HttpDelete]
-        [Route("DeleteUsuarioById")]
-        public ActionResult<Cancha> DeleteById(int id)
+        [Route("DeleteUsuarioById/{id}")]
+        public ActionResult<bool> DeleteById(int id)
         {
-            var status = _repository.EliminarUsuario(id);
-            return Ok(status);
+            var response = _repository.EliminarUsuario(id);
+            return Ok(response);
         }
+
     }
 }
