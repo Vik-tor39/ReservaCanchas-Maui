@@ -5,12 +5,13 @@ using NuGet.Protocol.Core.Types;
 using SaveInformationAPI.Data;
 using SaveInformationAPI.Interfaces;
 using SaveInformationAPI.Models;
+using SaveInformationAPI.Repositories;
 
 namespace SaveInformationAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CanchaController (ICanchaRepository repository) : ControllerBase
+    public class CanchaController (CanchaRepository repository) : ControllerBase
     {
         private readonly ICanchaRepository _repository = repository;
 

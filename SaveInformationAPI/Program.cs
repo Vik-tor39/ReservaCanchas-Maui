@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SaveInformationAPI.Data;
 using SaveInformationAPI.Interfaces;
+using SaveInformationAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +12,8 @@ builder.Services.AddDbContext<APIDbContext>(
 */
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDBContext>(
-    options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<ApplicationDBContext>(
+   // options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<ApplicationDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationConnection") 
@@ -23,7 +24,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ICanchaRepository>();
+// Inyection of dependencies for the API Controllers
+builder.Services.AddScoped<CanchaRepository>();
+builder.Services.AddScoped<UsuarioRepository>();
 
 var app = builder.Build();
 
