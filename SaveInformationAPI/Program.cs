@@ -11,7 +11,7 @@ builder.Services.AddDbContext<APIDbContext>(
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDBContext>(
-    options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationConnection")));
+    options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<ApplicationDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationConnection") 
