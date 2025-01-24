@@ -13,11 +13,10 @@ namespace SaveInformationAPI.Models
         [Key]
         public int IdComplejo { get; set; }
         [Required, MaxLength(100)]
-        public string NombreComplejo { get; set; }
-        [Required, MaxLength(100)]
-        public string ImagenComplejo { get; set; }
-
-        public List<Cancha> Canchas { get; set; } = new List<Cancha>();
+        public string? NombreComplejo { get; set; }
+        [Required, MaxLength(500)]
+        public string? ImagenComplejo { get; set; }
+        public Usuario? administrador { get; set; }
         [ForeignKey(nameof(Usuario))]
         public int IdAdministrador { get; set; }
     }

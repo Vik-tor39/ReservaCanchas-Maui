@@ -1,15 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-using SaveInformationAPI;
+using SaveInformationAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<APIDBContext>(
+/*
+ // Add services to the container.
+builder.Services.AddDbContext<APIDbContext>(
     options => options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationConnection")));
+*/
 
 // Add services to the container.
-builder.Services.AddDbContext<APIDBContext>(
+builder.Services.AddDbContext<ApplicationDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationConnection")));
+
+builder.Services.AddDbContext<ApplicationDBContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationConnection") 
+    ?? throw new InvalidOperationException("Connection string 'ApplicationConnection' not found.")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

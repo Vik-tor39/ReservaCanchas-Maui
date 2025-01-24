@@ -12,8 +12,6 @@ namespace SaveInformationAPI.Models
     {
         [Key]
         public int IdReserva { get; set; }
-        [ForeignKey(nameof(Usuario))]
-        public int IdUsuario { get; set; }
         [Required]
         public DateTime Fecha { get; set; }
         [Required]
@@ -24,6 +22,9 @@ namespace SaveInformationAPI.Models
         [DataType(DataType.Time)]
         [Display(Name = "Hora de Fin")]
         public TimeSpan HoraFin { get; set; }
+        public Usuario? usuario { get; set; }
+        [ForeignKey(nameof(Usuario))]
+        public int IdUsuario { get; set; }
         public Cancha? cancha { get; set; }
         [ForeignKey(nameof(Cancha))]
         public int IdCancha { get; set; } 
