@@ -1,30 +1,57 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using SaveInformationAPI.Data;
+using SaveInformationAPI.Interfaces;
 using SaveInformationAPI.Models;
 
 namespace SaveInformationAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CanchaController (ApplicationDBContext context) : ControllerBase
+    public class CanchaController (ICanchaRepository repository) : ControllerBase
     {
-        private readonly ApplicationDBContext _context = context;   
+        private readonly ICanchaRepository _repository = repository;
 
         [HttpGet]
-        public ActionResult<IEnumerable<Cancha>> GetProducts()
+        [Route("GetAllCanchas")]
+        public ActionResult<IEnumerable<Cancha>> GetAll()
         {
-            return _context.Cancha;
+            var cancha = _repository.ListarCanchas();
+            return Ok(cancha);
+        }
+
+        [HttpGet]
+        [Route("GetCanchaById")]
+        public ActionResult<Cancha> GetById(int id)
+        {
+            var cancha = _repository.VerCancha(id);
+            return Ok(cancha);
         }
 
         [HttpPost]
-        public ActionResult<Cancha> PostProduct(Cancha Cancha)
+        [Route("AddNewCancha")]
+        public ActionResult<Cancha> AddNew(Cancha cancha)
         {
-            _context.Cancha.Add(Cancha);
-            _context.SaveChanges();
+            var status = _repository.AgregarCancha(cancha);
+            return Ok(status);
+        }
 
-            return CreatedAtAction("GetProduct", new { id = Cancha.IdCancha }, Cancha);
+        [HttpPut]
+        [Route("ModifyCanchaById")]
+        public ActionResult<Cancha> ModifyById(int id, Cancha canchaActualizada)
+        {
+            var status = _repository.ModificarInformacionCancha(id, canchaActualizada);
+            return Ok(status);
+        }
+
+        [HttpDelete]
+        [Route("DeleteCanchaById")]
+        public ActionResult<Cancha> DeleteById(int id)
+        {
+            var status = _repository.EliminarCancha(id);
+            return Ok(status);
         }
     }
 }
