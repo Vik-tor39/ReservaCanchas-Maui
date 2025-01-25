@@ -1,5 +1,6 @@
 ﻿using ReservaCanchas_Maui.Interfaces;
 using ReservaCanchas_Maui.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,125 +12,161 @@ namespace ReservaCanchas_Maui.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly string _fileName = Path.Combine(AppContext.BaseDirectory, "Data", "usuarios.json");
+        public string _dbPath;
+        public string? StatusMessage { get; set; }
 
-        // 
-        public UsuarioRepository()
+        private SQLiteConnection? conn;
+        public UsuarioRepository(string dbpath)
         {
-            string directoryPath = Path.GetDirectoryName(_fileName);
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-                Console.WriteLine($"Directorio creado: {directoryPath}");
-            }
+            _dbPath = dbpath;
+        }
 
-            Console.WriteLine($"Ruta completa del archivo JSON: {_fileName}");
+        private void Init()
+        {
+            if (conn != null)
+                return;
+
+            conn = new SQLiteConnection(_dbPath);
+            conn.CreateTable<Usuario>();
+        }
+
+        public bool ActualizarUsuario(Usuario usuarioActualizado)
+        {
+            int result = 0;
+
+            try
+            {
+                Init();
+
+                var usuario = ObtenerUsuarioPorId(usuarioActualizado.IdUsuario);
+
+                if (usuario == null)
+                    throw new Exception("Valid object required");
+
+                result = conn!.Update(usuarioActualizado);
+
+                StatusMessage = string.Format("{0} record(s) add (Name: {1})", result, usuarioActualizado.NombreUsuario);
+
+                return result != 0;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to add {0}. Error: {1}", usuarioActualizado.NombreUsuario, ex.Message);
+                return false;
+            }
         }
 
         public bool CrearUsuario(Usuario usuario)
         {
-            List<Usuario> usuarios = ObtenerTodosLosUsuarios();
+            int result = 0;
 
-            // Validar si el correo ya existe
-            if (usuarios.Any(u => u.CorreoUsuario.Equals(usuario.CorreoUsuario, StringComparison.OrdinalIgnoreCase)))
-            {
-                return false; 
-            }
-
-            usuario.IdUsuario = usuarios.Count > 0 ? usuarios.Max(u => u.IdUsuario) + 1 : 1;
-
-            usuarios.Add(usuario);
-
-            string contenidoJson = JsonSerializer.Serialize(usuarios, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_fileName, contenidoJson);
-
-            return true; 
-        }
-
-        public void EliminarUsuario(int idUsuario)
-        {
             try
             {
-                if (File.Exists(_fileName))
-                {
-                    string contenidoJson = File.ReadAllText(_fileName);
-                    var usuarios = JsonSerializer.Deserialize<List<Usuario>>(contenidoJson) ?? new List<Usuario>();
+                Init();
+                if (usuario == null)
+                    throw new Exception("Valid object required");
 
-                    var usuarioAEliminar = usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-                    if (usuarioAEliminar != null)
-                    {
-                        usuarios.Remove(usuarioAEliminar);
-                        File.WriteAllText(_fileName, JsonSerializer.Serialize(usuarios, new JsonSerializerOptions { WriteIndented = true }));
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Usuario con ID {idUsuario} no encontrado.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("El archivo JSON no existe.");
-                }
+                result = conn!.Insert(usuario);
+
+                StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, usuario.NombreUsuario);
+
+                return result != 0;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error en EliminarUsuario: {ex.Message}");
-                Console.WriteLine(ex.StackTrace);
-                throw; // Re-lanzar para propagar el error si es necesario
+                StatusMessage = string.Format("Failed to add {0}. Error: {1}", usuario.NombreUsuario, ex.Message);
+                return false;
             }
         }
 
-        public void ActualizarUsuario(Usuario usuarioActualizado)
+        public bool EliminarUsuario(int idUsuario)
         {
-            if (File.Exists(_fileName))
+            int result = 0;
+
+            try
             {
-                // Leer el archivo JSON existente
-                string contenidoJson = File.ReadAllText(_fileName);
-                var usuarios = JsonSerializer.Deserialize<List<Usuario>>(contenidoJson) ?? new List<Usuario>();
+                Init();
 
-                // Encontrar y actualizar el usuario correspondiente
-                var usuarioExistente = usuarios.FirstOrDefault(u => u.IdUsuario == usuarioActualizado.IdUsuario);
-                if (usuarioExistente != null)
-                {
-                    usuarioExistente.ComplejosAdministrados = usuarioActualizado.ComplejosAdministrados;
-                }
+                if (conn != null)
+                    result = conn.Delete<Usuario>(idUsuario);
 
-                // Guardar los cambios de nuevo en el archivo JSON
-                string nuevoJson = JsonSerializer.Serialize(usuarios, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(_fileName, nuevoJson);
+                StatusMessage = string.Format("{0} record(s) deleted (Id: {1})", result, idUsuario);
+
+                return result != 0;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to delete data. {0}", ex.Message);
+                return false;
             }
         }
 
         public List<Usuario> ObtenerTodosLosUsuarios()
         {
-            if (!File.Exists(_fileName))
+            try
             {
-                File.WriteAllText(_fileName, "[]");
-                return new List<Usuario>();
+                Init();
+                StatusMessage = string.Format("Success");
+
+                return conn!.Table<Usuario>().ToList();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
             }
 
-            string contenidoJson = File.ReadAllText(_fileName);
-            return JsonSerializer.Deserialize<List<Usuario>>(contenidoJson) ?? new List<Usuario>();
+            return new List<Usuario>();
         }
 
-        public Usuario ObtenerUsuario(int idUsuario)
+        public Usuario ObtenerUsuarioPorId(int idUsuario)
         {
-            List<Usuario> usuarios = ObtenerTodosLosUsuarios();
-            return usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-        }
-
-        public void ActualizarTipoDeUsuario(int idUsuario, TipoDeUsuario nuevoTipo)
-        {
-            List<Usuario> usuarios = ObtenerTodosLosUsuarios();
-            var usuario = usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-
-            if (usuario != null)
+            try
             {
-                usuario.Tipo = nuevoTipo;
-                File.WriteAllText(_fileName, JsonSerializer.Serialize(usuarios, new JsonSerializerOptions { WriteIndented = true }));
+                var list = ObtenerTodosLosUsuarios();
+                var response = list.FirstOrDefault(c => c.IdUsuario == idUsuario);
+
+                if (response != null)
+                {
+                    return response;
+                }
+
+                return null!;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return null!;
             }
         }
 
+        public bool ActualizarTipoDeUsuario(int idUsuario, TipoDeUsuario nuevoTipo)
+        {
+            try
+            {
+                var list = ObtenerTodosLosUsuarios();
+                var response = list.FirstOrDefault(c => c.IdUsuario == idUsuario);
 
+                if (response != null)
+                {
+                    response.Tipo = nuevoTipo;
+
+                    var methodResult = ActualizarUsuario(response);
+                    
+                    if (methodResult!)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return false;
+            }
+        }
     }
 }
