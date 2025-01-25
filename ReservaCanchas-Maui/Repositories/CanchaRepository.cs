@@ -7,23 +7,31 @@ using System.Numerics;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using SQLite;
 
 namespace ReservaCanchas_Maui.Repositories
 {
     public class CanchaRepository : ICanchaRepository
     {
-        public string _fileName = Path.Combine(AppContext.BaseDirectory, "Data", "canchas.json");
-        public CanchaRepository()
+        public string _dbPath;
+        public string? StatusMessage { get; set; }
+        
+        private SQLiteConnection? conn;
+        public CanchaRepository(string dbpath)
         {
-            string directoryPath = Path.GetDirectoryName(_fileName);
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-                Console.WriteLine($"Directorio creado: {directoryPath}");
-            }
-
-            Console.WriteLine($"Ruta completa del archivo JSON: {_fileName}");
+            _dbPath = dbpath;
         }
+
+        private void Init()
+        {
+            if (conn != null)
+                return;
+
+            conn = new SQLiteConnection(_dbPath);
+            conn.CreateTable<Cancha>();
+        }
+
+
         public void ActualizarCancha(Cancha canchaActualizada)
         {
             List<Cancha> canchas = ObtenerTodasLasCanchas();

@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace ReservaCanchas_Maui.Repositories
 {
-    public class ReservaRepositroy : IReservaRepository
+    public class ReservaRepository : IReservaRepository
     {
         public string _fileName = Path.Combine(AppContext.BaseDirectory, "Data", "reservas.json");
-        public ReservaRepositroy()
+        public ReservaRepository()
         {
             string directoryPath = Path.GetDirectoryName(_fileName);
             if (!Directory.Exists(directoryPath))

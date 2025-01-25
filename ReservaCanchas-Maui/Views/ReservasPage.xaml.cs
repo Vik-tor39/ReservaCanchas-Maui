@@ -9,12 +9,12 @@ public partial class ReservasPage : ContentPage
     public Usuario _usuario;
     public Complejo _complejo;
 	public Cancha _cancha;
-	public ReservaRepositroy _repository;
+	public ReservaRepository _repository;
     public Reserva _reserva;
 	public ReservasPage(Cancha cancha, Usuario usuario, Complejo complejo)
 	{
 		InitializeComponent();
-        _repository = new ReservaRepositroy();
+        _repository = new ReservaRepository();
 		_cancha = cancha;
         _usuario = usuario;
         _complejo = complejo;
