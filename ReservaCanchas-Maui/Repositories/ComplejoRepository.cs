@@ -29,66 +29,114 @@ namespace ReservaCanchas_Maui.Repositories
             conn = new SQLiteConnection(_dbPath);
             conn.CreateTable<Complejo>();
         }
-        public Complejo ObtenerComplejo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public void ActualizarComplejo(Complejo complejoActualizado)
+        public bool ActualizarComplejo(Complejo complejoActualizado)
         {
-            if (File.Exists(_fileName))
+            int result = 0;
+
+            try
             {
-                // Leer el archivo JSON existente
-                string contenidoJson = File.ReadAllText(_fileName);
-                var complejos = JsonSerializer.Deserialize<List<Complejo>>(contenidoJson) ?? new List<Complejo>();
+                Init();
 
-                // Encontrar y actualizar el usuario correspondiente
-                var complejoExistente = complejos.FirstOrDefault(c => c.IdComplejo == complejoActualizado.IdComplejo);
-                if (complejoExistente != null)
-                {
-                    complejoExistente.NombreComplejo = complejoActualizado.NombreComplejo;
-                    complejoExistente.ImagenComplejo = complejoActualizado.ImagenComplejo;
-                }
+                var complejo = ObtenerComplejoPorId(complejoActualizado.IdComplejo);
 
-                // Guardar los cambios de nuevo en el archivo JSON
-                string nuevoJson = JsonSerializer.Serialize(complejos, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(_fileName, nuevoJson);
+                if (complejo == null)
+                    throw new Exception("Valid object required");
+
+                result = conn!.Update(complejoActualizado);
+
+                StatusMessage = string.Format("{0} record(s) add (Name: {1})", result, complejoActualizado.NombreComplejo);
+
+                return result != 0;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to add {0}. Error: {1}", complejoActualizado.NombreComplejo, ex.Message);
+                return false;
             }
         }
 
-        public void CrearComplejo(Complejo complejo)
+        public bool CrearComplejo(Complejo complejo)
         {
-            List<Complejo> complejos = new List<Complejo>();
-            List<Complejo> listaComplejos = ObtenerTodosLosComplejos();
+            int result = 0;
 
-            if (File.Exists(_fileName))
+            try
             {
-                var contenido = File.ReadAllText(_fileName);
-                complejos = JsonSerializer.Deserialize<List<Complejo>>(contenido) ?? new List<Complejo>();
+                Init();
+                if (complejo == null)
+                    throw new Exception("Valid object required");
+
+                result = conn!.Insert(complejo);
+
+                StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, complejo.NombreComplejo);
+
+                return result != 0;
             }
-
-            complejo.IdComplejo = listaComplejos.Count > 0 ? listaComplejos.Max(c => c.IdComplejo) + 1 : 1;
-
-            complejos.Add(complejo);
-            File.WriteAllText(_fileName, JsonSerializer.Serialize(complejos, new JsonSerializerOptions { WriteIndented = true }));
-            
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to add {0}. Error: {1}", complejo.NombreComplejo, ex.Message);
+                return false;
+            }
         }
 
-        public void EliminarComplejo(int idComplejo)
+        public bool EliminarComplejo(int idComplejo)
         {
-            throw new NotImplementedException();
+            int result = 0;
+
+            try
+            {
+                Init();
+
+                if (conn != null)
+                    result = conn.Delete<Complejo>(idComplejo);
+
+                StatusMessage = string.Format("{0} record(s) deleted (Id: {1})", result, idComplejo);
+
+                return result != 0;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to delete data. {0}", ex.Message);
+                return false;
+            }
         }
 
         public List<Complejo> ObtenerTodosLosComplejos()
         {
-            List<Complejo> _complejos;
-            if (File.Exists(_fileName))
+            try
             {
-                string contenidoJson = File.ReadAllText(_fileName);
-                _complejos = JsonSerializer.Deserialize<List<Complejo>>(contenidoJson) ?? new List<Complejo>();
-                return _complejos;
-            } else
-            {
-                return new List<Complejo>();
+                Init();
+                StatusMessage = string.Format("Success");
+
+                return conn!.Table<Complejo>().ToList();
             }
-            
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+            }
+
+            return new List<Complejo>();
+        }
+
+        public Complejo ObtenerComplejoPorId(int idComplejo)
+        {
+            try
+            {
+                var list = ObtenerTodosLosComplejos();
+                var response = list.FirstOrDefault(c => c.IdComplejo == idComplejo);
+
+                if (response != null)
+                {
+                    return response;
+                }
+
+                return null!;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return null!;
+            }
         }
     }
 }
