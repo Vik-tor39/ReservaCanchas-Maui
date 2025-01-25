@@ -17,5 +17,6 @@ namespace ReservaCanchas_Maui.Models
         public TimeSpan HoraFin { get; set; } 
         public int IdCancha { get; set; }
         public int IdUsuario { get; set; }
+        public bool EstaDisponible { get; set; }
     }
 }

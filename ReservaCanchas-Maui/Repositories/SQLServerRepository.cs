@@ -8,5 +8,7 @@ namespace ReservaCanchas_Maui.Repositories
 {
     internal class SQLServerRepository
     {
+        public SQLServerRepository() { }
+
     }
 }

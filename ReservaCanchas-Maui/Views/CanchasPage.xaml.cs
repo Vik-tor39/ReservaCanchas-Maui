@@ -8,7 +8,6 @@ namespace ReservaCanchas_Maui.Views;
 public partial class CanchasPage : ContentPage
 {
     public Usuario _usuario;
-	public CanchaRepository _repository;
 	public List<Cancha> _canchas;
 	public Complejo _complejo;
 
@@ -16,7 +15,6 @@ public partial class CanchasPage : ContentPage
     {
         InitializeComponent();
         _complejo = complejo;
-        _repository = new CanchaRepository();
         _usuario = usuario;
         Title = $"Canchas de {_complejo.NombreComplejo}";
         CargarCanchas();
@@ -31,7 +29,7 @@ public partial class CanchasPage : ContentPage
 
     private void CargarCanchas()
     {
-		_canchas = _repository.ObtenerTodasLasCanchas();
+		_canchas = App._canchaRepository.ObtenerTodasLasCanchas();
         CanchasCollection.ItemsSource = _canchas.Where(c => c.IdComplejo == _complejo.IdComplejo).ToList();
     }
     private async void OnCanchaSelected(object sender, SelectionChangedEventArgs e)

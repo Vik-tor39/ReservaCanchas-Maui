@@ -5,11 +5,9 @@ namespace ReservaCanchas_Maui.Views;
 
 public partial class Register : ContentPage
 {
-    private readonly UsuarioRepository _usuarioRepository;
     public Register()
 	{
 		InitializeComponent();
-        _usuarioRepository = new UsuarioRepository();
     }
     private async void OnLoginTapped(object sender, EventArgs e)
     {
@@ -51,7 +49,7 @@ public partial class Register : ContentPage
         };
 
         // Guardar el usuario en el archivo JSON
-        bool usuarioCreado = _usuarioRepository.CrearUsuario(nuevoUsuario);
+        bool usuarioCreado = App._usuarioRepository.CrearUsuario(nuevoUsuario);
 
         if (!usuarioCreado)
         {

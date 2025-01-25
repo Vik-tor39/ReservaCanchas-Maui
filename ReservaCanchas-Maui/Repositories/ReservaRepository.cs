@@ -1,5 +1,6 @@
 ﻿using ReservaCanchas_Maui.Interfaces;
 using ReservaCanchas_Maui.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,68 +13,161 @@ namespace ReservaCanchas_Maui.Repositories
 {
     public class ReservaRepository : IReservaRepository
     {
-        public string _fileName = Path.Combine(AppContext.BaseDirectory, "Data", "reservas.json");
-        public ReservaRepository()
+        public string _dbPath;
+        public string? StatusMessage { get; set; }
+
+        private SQLiteConnection? conn;
+        public ReservaRepository(string dbpath)
         {
-            string directoryPath = Path.GetDirectoryName(_fileName);
-            if (!Directory.Exists(directoryPath))
+            _dbPath = dbpath;
+        }
+
+        private void Init()
+        {
+            if (conn != null)
+                return;
+
+            conn = new SQLiteConnection(_dbPath);
+            conn.CreateTable<Reserva>();
+        }
+
+        public bool ActualizarReserva(Reserva reservaActualizada)
+        {
+            int result = 0;
+
+            try
             {
-                Directory.CreateDirectory(directoryPath);
-                Console.WriteLine($"Directorio creado: {directoryPath}");
+                Init();
+
+                var reserva = ObtenerReservaPorId(reservaActualizada.IdReserva);
+
+                if (reserva == null)
+                    throw new Exception("Valid object required");
+
+                result = conn!.Update(reservaActualizada);
+
+                StatusMessage = string.Format("{0} record(s) added (Id: {1})", result, reservaActualizada.IdReserva);
+
+                return result != 0;
             }
-
-            Console.WriteLine($"Ruta completa del archivo JSON: {_fileName}");
-        }
-        public void CrearReserva(Reserva reserva)
-        {
-            List<Reserva> reservas = ObtenerTodasLasReservas();
-
-            // Incrementar el ID de la reserva
-            reserva.IdReserva = reservas.Count > 0 ? reservas.Max(r => r.IdReserva) + 1 : 1;
-
-            // Agregar la nueva reserva a la lista
-            reservas.Add(reserva);
-
-            // Guardar las reservas en el archivo JSON
-            File.WriteAllText(_fileName, JsonSerializer.Serialize(reservas, new JsonSerializerOptions { WriteIndented = true }));
-        }
-
-
-        public bool EstaDisponible(int idCancha, DateTime fecha, TimeSpan horaInicio, TimeSpan horaFin)
-        {
-            var reservas = ObtenerTodasLasReservas();
-
-            foreach (var reserva in reservas)
+            catch (Exception ex)
             {
-                // Verificar si es la misma cancha y misma fecha
-                if (reserva.IdCancha == idCancha && reserva.Fecha.Date == fecha.Date)
-                {
-                    // Verificar superposición de horarios
-                    if ((horaInicio < reserva.HoraFin && horaFin > reserva.HoraInicio) ||
-                        (horaInicio == reserva.HoraInicio && horaFin == reserva.HoraFin))
-                    {
-                        return false; // Hay una reserva que se superpone
-                    }
-                }
+                StatusMessage = string.Format("Failed to add {0}. Error: {1}", reservaActualizada.IdReserva, ex.Message);
+                return false;
             }
-
-            return true; // No hay superposición
         }
 
+        public bool CrearReserva(Reserva reserva)
+        {
+            int result = 0;
+
+            try
+            {
+                Init();
+                if (reserva == null)
+                    throw new Exception("Valid object required");
+
+                result = conn!.Insert(reserva);
+
+                StatusMessage = string.Format("{0} record(s) added (Id: {1})", result, reserva.IdReserva);
+
+                return result != 0;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to add {0}. Error: {1}", reserva.IdReserva, ex.Message);
+                return false;
+            }
+        }
+
+        public bool EliminarReserva(int idReserva)
+        {
+            int result = 0;
+
+            try
+            {
+                Init();
+
+                if (conn != null)
+                    result = conn.Delete<Reserva>(idReserva);
+
+                StatusMessage = string.Format("{0} record(s) deleted (Id: {1})", result, idReserva);
+
+                return result != 0;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to delete data. {0}", ex.Message);
+                return false;
+            }
+        }
 
         public List<Reserva> ObtenerTodasLasReservas()
         {
-            List<Reserva> listaReservas;
-            if (File.Exists(_fileName))
+            try
             {
-                string contenidoJson = File.ReadAllText(_fileName);
-                listaReservas = JsonSerializer.Deserialize<List<Reserva>>(contenidoJson) ?? new List<Reserva>();
-                return listaReservas;
+                Init();
+                StatusMessage = string.Format("Success");
+
+                return conn!.Table<Reserva>().ToList();
             }
-            else
+            catch (Exception ex)
             {
-                return new List<Reserva>();
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+            }
+
+            return new List<Reserva>();
+        }
+
+        public Reserva ObtenerReservaPorId(int idReserva)
+        {
+            try
+            {
+                var list = ObtenerTodasLasReservas();
+                var response = list.FirstOrDefault(c => c.IdReserva == idReserva);
+
+                if (response != null)
+                {
+                    return response;
+                }
+
+                return null!;
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return null!;
+            }
+        }
+
+        public bool VerificarEstado(int idCancha, DateTime fecha, TimeSpan horaInicio, TimeSpan horaFin)
+        {
+            try
+            {
+                var list = ObtenerTodasLasReservas();
+
+                foreach (var reserva in list)
+                {
+                    // Verificar si es la misma cancha y misma fecha
+                    if (reserva.IdCancha == idCancha && reserva.Fecha.Date == fecha.Date)
+                    {
+                        // Verificar superposición de horarios
+                        if ((horaInicio < reserva.HoraFin && horaFin > reserva.HoraInicio) ||
+                            (horaInicio == reserva.HoraInicio && horaFin == reserva.HoraFin))
+                        {
+                            return false; // Hay una reserva que se superpone
+                        }
+                    }
+                }
+
+                return false; // No hay superposición
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return false;
             }
         }
     }
+
 }

@@ -10,6 +10,7 @@ namespace ReservaCanchas_Maui.Interfaces
     public interface IReservaRepository
     {
         public Reserva ObtenerReservaPorId(int idReserva);
+        public bool VerificarEstado(int idCancha, DateTime fecha, TimeSpan horaInicio, TimeSpan horaFin);
         public List<Reserva> ObtenerTodasLasReservas();
         public bool CrearReserva(Reserva reserva); 
         public bool ActualizarReserva(Reserva reservaActualizada);

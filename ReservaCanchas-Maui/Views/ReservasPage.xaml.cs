@@ -9,12 +9,10 @@ public partial class ReservasPage : ContentPage
     public Usuario _usuario;
     public Complejo _complejo;
 	public Cancha _cancha;
-	public ReservaRepository _repository;
     public Reserva _reserva;
 	public ReservasPage(Cancha cancha, Usuario usuario, Complejo complejo)
 	{
 		InitializeComponent();
-        _repository = new ReservaRepository();
 		_cancha = cancha;
         _usuario = usuario;
         _complejo = complejo;
@@ -48,7 +46,7 @@ public partial class ReservasPage : ContentPage
             return;
         }
 
-        if (!_repository.EstaDisponible(_cancha.IdCancha, FechaPicker.Date, HoraInicioPicker.Time, HoraFinPicker.Time))
+        if (!App._reservaRepository.VerificarEstado(_cancha.IdCancha, FechaPicker.Date, HoraInicioPicker.Time, HoraFinPicker.Time))
         {
             await DisplayAlert("Error", "El horario seleccionado ya está reservado.", "Aceptar");
             return;
@@ -65,7 +63,7 @@ public partial class ReservasPage : ContentPage
         };
 
         // Guardar la reserva
-        _repository.CrearReserva(_reserva);
+        App._reservaRepository.CrearReserva(_reserva);
 
         await DisplayAlert("Éxito", "Reservación confirmada.", "Aceptar");
         await Navigation.PopAsync();

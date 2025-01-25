@@ -5,8 +5,7 @@ namespace ReservaCanchas_Maui.AdminViews;
 
 public partial class GestionarCancha : ContentPage
 {
-    private CanchaRepository _repository;
-    private Cancha _cancha;
+  
 
     public GestionarCancha(int idCancha)
     {

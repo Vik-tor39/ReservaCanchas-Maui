@@ -4,12 +4,9 @@ namespace ReservaCanchas_Maui.Views;
 
 public partial class MainPage : ContentPage
 {
-    private readonly UsuarioRepository _usuarioRepository;
-
     public MainPage()
     {
         InitializeComponent();
-        _usuarioRepository = new UsuarioRepository();
     }
 
     private void MostrarPasswordChanged(object sender, CheckedChangedEventArgs e)
@@ -26,7 +23,7 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        var usuario = _usuarioRepository.ObtenerTodosLosUsuarios()
+        var usuario = App._usuarioRepository.ObtenerTodosLosUsuarios()
                                         .FirstOrDefault(u => u.CorreoUsuario == CorreoEntry.Text &&
                                                              u.PasswordUsuario == PasswordEntry.Text);
 

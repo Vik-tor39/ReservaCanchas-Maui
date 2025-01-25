@@ -7,14 +7,12 @@ namespace ReservaCanchas_Maui.Views;
 
 public partial class ComplejosPage : ContentPage
 {
-    private ComplejoRepository _repository;
-    private List<Complejo> _complejos;
+    private List<Complejo> _complejos = new List<Complejo>();
     private Usuario _usuario;
 
     public ComplejosPage(Usuario usuario)
     {
         InitializeComponent();
-        _repository = new ComplejoRepository();
         _usuario = usuario;
         CargarComplejos();
         GenerarBotonesSuperUsuario();
@@ -22,7 +20,8 @@ public partial class ComplejosPage : ContentPage
 
     private void CargarComplejos()
     {
-        ComplejosCollection.ItemsSource = _repository.ObtenerTodosLosComplejos();
+        _complejos = App._complejoRepository.ObtenerTodosLosComplejos();
+        ComplejosCollection.ItemsSource = _complejos;
     }
 
     private async void OnComplejoSelected(object sender, SelectionChangedEventArgs e)
