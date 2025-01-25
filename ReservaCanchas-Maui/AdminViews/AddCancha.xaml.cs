@@ -7,12 +7,10 @@ public partial class AddCancha : ContentPage
 {
 	public Complejo _complejo;
 	public Cancha _cancha;
-	public CanchaRepository _repository;
 	public AddCancha(Complejo complejo)
 	{
 		InitializeComponent();
 		_complejo = complejo;
-		_repository = new CanchaRepository();
 	}
     private async void OnAniadirCanchaClicked(object sender, EventArgs e)
 	{
@@ -26,7 +24,8 @@ public partial class AddCancha : ContentPage
             ImagenCancha = ImagenCanchaEntry.Text,
             IdComplejo = _complejo.IdComplejo
         };
-		_repository.CrearCancha(_cancha);
+
+		App._canchaRepository.CrearCancha(_cancha);
         await DisplayAlert("Éxito", "Cancha guardada correctamente.", "OK");
         Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
         await Navigation.PopAsync();

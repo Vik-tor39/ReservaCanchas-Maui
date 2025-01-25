@@ -3,6 +3,7 @@ using ReservaCanchas_Maui.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -165,6 +166,8 @@ namespace ReservaCanchas_Maui.Repositories
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
                 return false;
             }
         }

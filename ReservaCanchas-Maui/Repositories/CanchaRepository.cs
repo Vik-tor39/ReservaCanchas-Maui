@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using SQLite;
+using System.Diagnostics;
 
 namespace ReservaCanchas_Maui.Repositories
 {
@@ -51,6 +52,8 @@ namespace ReservaCanchas_Maui.Repositories
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to add {0}. Error: {1}", cancha.NombreCancha, ex.Message);
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
                 return false;
             }
         }
@@ -78,6 +81,8 @@ namespace ReservaCanchas_Maui.Repositories
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to add {0}. Error: {1}", canchaActualizada.NombreCancha, ex.Message);
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
                 return false;
             }
         }
@@ -100,6 +105,8 @@ namespace ReservaCanchas_Maui.Repositories
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to delete data. {0}", ex.Message);
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
                 return false;
             }
         }
@@ -120,6 +127,8 @@ namespace ReservaCanchas_Maui.Repositories
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
                 return null!;
             }
         }
@@ -136,6 +145,8 @@ namespace ReservaCanchas_Maui.Repositories
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
             }
 
             return new List<Cancha>();

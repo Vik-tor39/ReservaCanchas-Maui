@@ -36,16 +36,22 @@ namespace ReservaCanchas_Maui
             string dbPath4 = string.Empty;
 #endif
 
+            try
+            {
+                builder.Services.AddSingleton<CanchaRepository>(s => ActivatorUtilities.CreateInstance<CanchaRepository>(s, dbPath1));
+                builder.Services.AddSingleton<ComplejoRepository>(s => ActivatorUtilities.CreateInstance<ComplejoRepository>(s, dbPath2));
+                builder.Services.AddSingleton<ReservaRepository>(s => ActivatorUtilities.CreateInstance<ReservaRepository>(s, dbPath3));
+                builder.Services.AddSingleton<UsuarioRepository>(s => ActivatorUtilities.CreateInstance<UsuarioRepository>(s, dbPath4));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during dependency injection: {ex.Message}");
+            }
 
-            builder.Services.AddSingleton<CanchaRepository>(s => ActivatorUtilities.CreateInstance<CanchaRepository>(s, dbPath1));
-
-            builder.Services.AddSingleton<ComplejoRepository>(s => ActivatorUtilities.CreateInstance<ComplejoRepository>(s, dbPath2));
-
-            builder.Services.AddSingleton<ReservaRepository>(s => ActivatorUtilities.CreateInstance<ReservaRepository>(s, dbPath3));
-
-            builder.Services.AddSingleton<UsuarioRepository>(s => ActivatorUtilities.CreateInstance<UsuarioRepository>(s, dbPath4));
-
-            builder.Services.AddSingleton<SQLServerRepository>();
+            Console.WriteLine($"DB Path Cancha: {dbPath1}");
+            Console.WriteLine($"DB Path Complejo: {dbPath2}");
+            Console.WriteLine($"DB Path Reserva: {dbPath3}");
+            Console.WriteLine($"DB Path Usuario: {dbPath4}");
 
             return builder.Build();
         }

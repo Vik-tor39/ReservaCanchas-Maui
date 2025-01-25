@@ -6,13 +6,11 @@ namespace ReservaCanchas_Maui.AdminViews;
 public partial class GestionarComplejo : ContentPage
 {
 	public Complejo _complejo;
-	public ComplejoRepository _repository;
 
 	public GestionarComplejo(Complejo complejo)
 	{
 		InitializeComponent();
 		_complejo = complejo;
-		_repository = new ComplejoRepository();
 
         NombreComplejoEntry.Text = _complejo.NombreComplejo;
         ImagenComplejoEntry.Text = _complejo.ImagenComplejo;
@@ -32,7 +30,7 @@ public partial class GestionarComplejo : ContentPage
         _complejo.ImagenComplejo = ImagenComplejoEntry.Text;
 
         // Guardar los cambios en el repositorio
-        _repository.ActualizarComplejo(_complejo);
+        App._complejoRepository.ActualizarComplejo(_complejo);
 
         await DisplayAlert("Éxito", "Los datos del complejo se han actualizado correctamente.", "OK");
         Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);

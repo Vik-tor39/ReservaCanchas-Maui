@@ -5,13 +5,11 @@ namespace ReservaCanchas_Maui.AdminViews;
 
 public partial class GestionarCancha : ContentPage
 {
-  
-
+    public Cancha? _cancha;
     public GestionarCancha(int idCancha)
     {
         InitializeComponent();
-        _repository = new CanchaRepository();
-        _cancha = _repository.ObtenerCanchaPorId(idCancha);
+        _cancha = App._canchaRepository.ObtenerCanchaPorId(idCancha);
         CargarDetallesCancha();
     }
 
@@ -37,9 +35,15 @@ public partial class GestionarCancha : ContentPage
         _cancha.HoraCierre = HoraCierrePicker.Time;
         _cancha.ImagenCancha = ImagenCanchaEntry.Text;
 
-        _repository.ActualizarCancha(_cancha);
+        if (!_cancha.Equals(null)) {
+            if(App._canchaRepository.ActualizarCancha(_cancha) == true)
+            {
+                await DisplayAlert("Éxito", "La cancha se ha actualizado correctamente.", "OK");
+            }
 
-        await DisplayAlert("Éxito", "La cancha se ha actualizado correctamente.", "OK");
+            await DisplayAlert("Error", "No fue posible agregar una nueva cancha", "OK");
+        }
+
         Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
         await Navigation.PopAsync();
     }
@@ -61,7 +65,7 @@ public partial class GestionarCancha : ContentPage
             if (confirmacion)
             {
                 // Llama al repositorio para eliminar la cancha
-                _repository.EliminarCancha(_cancha.IdCancha);
+                App._canchaRepository.EliminarCancha(_cancha.IdCancha);
 
                 // Opcional: Mostrar mensaje de éxito
                 await DisplayAlert("Éxito", "Cancha eliminada correctamente.", "OK");

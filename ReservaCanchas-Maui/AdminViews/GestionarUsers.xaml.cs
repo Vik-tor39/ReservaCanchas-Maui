@@ -7,7 +7,6 @@ namespace ReservaCanchas_Maui.AdminViews
 {
     public partial class GestionarUsers : ContentPage
     {
-        private readonly UsuarioRepository _usuarioRepository;
         public ObservableCollection<Usuario> Usuarios { get; set; }
 
         public ICommand EliminarUsuarioCommand { get; private set; }
@@ -16,8 +15,7 @@ namespace ReservaCanchas_Maui.AdminViews
         {
             InitializeComponent();
 
-            _usuarioRepository = new UsuarioRepository();
-            Usuarios = new ObservableCollection<Usuario>(_usuarioRepository.ObtenerTodosLosUsuarios());
+            Usuarios = new ObservableCollection<Usuario>(App._usuarioRepository.ObtenerTodosLosUsuarios());
             EliminarUsuarioCommand = new Command<int>(EliminarUsuario);
 
             BindingContext = this;
@@ -39,7 +37,7 @@ namespace ReservaCanchas_Maui.AdminViews
                 if (confirmacion)
                 {
                     // Llama al repositorio para eliminar el usuario
-                    _usuarioRepository.EliminarUsuario(idUsuario);
+                    App._usuarioRepository.EliminarUsuario(idUsuario);
 
                     // Elimina de la colección observable
                     var usuario = Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);

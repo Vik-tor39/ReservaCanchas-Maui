@@ -1,6 +1,7 @@
 using ReservaCanchas_Maui.AdminViews;
 using ReservaCanchas_Maui.Models;
 using ReservaCanchas_Maui.Repositories;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace ReservaCanchas_Maui.Views;
@@ -20,8 +21,16 @@ public partial class ComplejosPage : ContentPage
 
     private void CargarComplejos()
     {
-        _complejos = App._complejoRepository.ObtenerTodosLosComplejos();
-        ComplejosCollection.ItemsSource = _complejos;
+        try
+        {
+            _complejos = App._complejoRepository.ObtenerTodosLosComplejos();
+            ComplejosCollection.ItemsSource = _complejos;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            Debug.WriteLine(ex.StackTrace);
+        }
     }
 
     private async void OnComplejoSelected(object sender, SelectionChangedEventArgs e)

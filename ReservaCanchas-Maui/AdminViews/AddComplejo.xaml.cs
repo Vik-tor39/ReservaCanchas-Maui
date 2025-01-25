@@ -6,16 +6,12 @@ namespace ReservaCanchas_Maui.AdminViews;
 
 public partial class AddComplejo : ContentPage
 {
-    public ComplejoRepository _complejoRepository;
     public Complejo _complejo;
-    public UsuarioRepository _userRepository;
     public List<Usuario> _administradores;
     public AddComplejo()
 	{
 		InitializeComponent();
-        _complejoRepository = new ComplejoRepository();
         _complejo = new Complejo();
-        _userRepository = new UsuarioRepository();
         _administradores = CargarAdministradores();
 
         AdministradorPicker.ItemsSource = _administradores;
@@ -23,7 +19,7 @@ public partial class AddComplejo : ContentPage
     private List<Usuario> CargarAdministradores()
     {
         List<Usuario> _listaAdministradores = new List<Usuario>();
-        _listaAdministradores = _userRepository.ObtenerTodosLosUsuarios();
+        _listaAdministradores = App._usuarioRepository.ObtenerTodosLosUsuarios();
 
         return _listaAdministradores?.Where(u => u.Tipo == TipoDeUsuario.Administrador).ToList() ?? new List<Usuario>();
     }
@@ -41,11 +37,11 @@ public partial class AddComplejo : ContentPage
         _complejo.ImagenComplejo = ImagenComplejoEntry.Text;
         _complejo.IdAdministrador = administradorSeleccionado.IdUsuario;
 
-        _complejoRepository.CrearComplejo(_complejo);
+        App._complejoRepository.CrearComplejo(_complejo);
 
         // Actualizar lista de complejos de administrador
         administradorSeleccionado.ComplejosAdministrados.Add(_complejo.IdComplejo);
-        _userRepository.ActualizarUsuario(administradorSeleccionado);
+        App._usuarioRepository.ActualizarUsuario(administradorSeleccionado);
 
         Console.WriteLine($"Complejo creado: {_complejo.NombreComplejo} con {(_complejo.Canchas.Count)} canchas.");
 
