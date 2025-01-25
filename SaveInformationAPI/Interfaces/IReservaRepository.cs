@@ -1,4 +1,4 @@
-﻿using SaveInformationAPI.Models;
+using SaveInformationAPI.Models;
 
 namespace SaveInformationAPI.Interfaces
 {
