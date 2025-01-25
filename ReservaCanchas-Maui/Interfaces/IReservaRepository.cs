@@ -11,6 +11,6 @@ namespace ReservaCanchas_Maui.Interfaces
     {
         public List<Reserva> ObtenerTodasLasReservas();
         public bool EstaDisponible(int idCancha, DateTime fecha, TimeSpan horaInicio, TimeSpan horaFin);
-        public void CrearReserva(Reserva reserva); 
+        public bool CrearReserva(Reserva reserva); 
     }
 }

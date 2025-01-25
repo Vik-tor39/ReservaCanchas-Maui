@@ -11,8 +11,8 @@ namespace ReservaCanchas_Maui.Interfaces
     {
         public List<Complejo> ObtenerTodosLosComplejos();
         public Complejo ObtenerComplejo { get; set; }
-        public void CrearComplejo(Complejo complejo);
-        public void ActualizarComplejo(Complejo complejo);
-        public void EliminarComplejo(int idComplejo); 
+        public bool CrearComplejo(Complejo complejo);
+        public bool ActualizarComplejo(Complejo complejo);
+        public bool EliminarComplejo(int idComplejo); 
     }
 }

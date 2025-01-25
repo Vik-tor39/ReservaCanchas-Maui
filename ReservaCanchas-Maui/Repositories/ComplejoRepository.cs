@@ -1,5 +1,6 @@
 ﻿using ReservaCanchas_Maui.Interfaces;
 using ReservaCanchas_Maui.Models;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,22 @@ namespace ReservaCanchas_Maui.Repositories
 {
     public class ComplejoRepository : IComplejoRepository
     {
-        public string _fileName = Path.Combine(AppContext.BaseDirectory,"Data", "complejos.json");
-        public ComplejoRepository() 
-        {
-            string directoryPath = Path.GetDirectoryName(_fileName);
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-                Console.WriteLine($"Directorio creado: {directoryPath}");
-            }
+        public string _dbPath;
+        public string? StatusMessage { get; set; }
 
-            Console.WriteLine($"Ruta completa del archivo JSON: {_fileName}");
+        private SQLiteConnection? conn;
+        public ComplejoRepository(string dbpath)
+        {
+            _dbPath = dbpath;
+        }
+
+        private void Init()
+        {
+            if (conn != null)
+                return;
+
+            conn = new SQLiteConnection(_dbPath);
+            conn.CreateTable<Complejo>();
         }
         public Complejo ObtenerComplejo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

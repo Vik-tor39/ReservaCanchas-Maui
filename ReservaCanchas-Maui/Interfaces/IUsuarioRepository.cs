@@ -12,8 +12,8 @@ namespace ReservaCanchas_Maui.Interfaces
         public List<Usuario> ObtenerTodosLosUsuarios();
         public Usuario ObtenerUsuario(int idUsuario);
         public bool CrearUsuario(Usuario usuario);
-        public void EliminarUsuario(int idUsuario);
-        public void ActualizarUsuario(Usuario usuario);
-        public void ActualizarTipoDeUsuario(int idUsuario, TipoDeUsuario nuevoTipo);
+        public bool EliminarUsuario(int idUsuario);
+        public bool ActualizarUsuario(Usuario usuario);
+        public bool ActualizarTipoDeUsuario(int idUsuario, TipoDeUsuario nuevoTipo);
     }
 }
