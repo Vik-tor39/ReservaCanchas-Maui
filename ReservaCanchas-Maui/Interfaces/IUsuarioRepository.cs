@@ -9,11 +9,11 @@ namespace ReservaCanchas_Maui.Interfaces
 {
     public interface IUsuarioRepository
     {
-        List<Usuario> ObtenerTodosLosUsuarios();
-        Usuario ObtenerUsuario(int idUsuario);
-        bool CrearUsuario(Usuario usuario);
-        void EliminarUsuario(int idUsuario);
-        void ActualizarUsuario(Usuario usuario);
-        void ActualizarTipoDeUsuario(int idUsuario, TipoDeUsuario nuevoTipo);
+        public List<Usuario> ObtenerTodosLosUsuarios();
+        public Usuario ObtenerUsuario(int idUsuario);
+        public bool CrearUsuario(Usuario usuario);
+        public void EliminarUsuario(int idUsuario);
+        public void ActualizarUsuario(Usuario usuario);
+        public void ActualizarTipoDeUsuario(int idUsuario, TipoDeUsuario nuevoTipo);
     }
 }

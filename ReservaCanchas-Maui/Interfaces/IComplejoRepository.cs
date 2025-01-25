@@ -9,10 +9,10 @@ namespace ReservaCanchas_Maui.Interfaces
 {
     public interface IComplejoRepository
     {
-        List<Complejo> ObtenerTodosLosComplejos();
-        Complejo ObtenerComplejo { get; set; }
-        void CrearComplejo(Complejo complejo); 
-        void ActualizarComplejo(Complejo complejo); 
-        void EliminarComplejo(int idComplejo); 
+        public List<Complejo> ObtenerTodosLosComplejos();
+        public Complejo ObtenerComplejo { get; set; }
+        public void CrearComplejo(Complejo complejo);
+        public void ActualizarComplejo(Complejo complejo);
+        public void EliminarComplejo(int idComplejo); 
     }
 }
