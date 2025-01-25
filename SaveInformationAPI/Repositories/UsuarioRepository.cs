@@ -1,23 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SaveInformationAPI.Data;
 using SaveInformationAPI.Interfaces;
 using SaveInformationAPI.Models;
 
 namespace SaveInformationAPI.Repositories
 {
-    public class UsuarioRepository (ApplicationDBContext context) : IUsuarioRepository
+    public class UsuarioRepository(ApplicationDBContext context) : IUsuarioRepository
     {
         private readonly ApplicationDBContext _context = context;
 
-        public async Task<bool> AgregarUsuario(Usuario usuario)
+        public bool AgregarUsuario(Usuario usuario)
         {
             if (usuario == null)
             { return false; }
 
             try
             {
-                await _context.Usuario.AddAsync(usuario);
-                int changes = await _context.SaveChangesAsync();
+                _context.Usuario.Add(usuario);
+                int changes = _context.SaveChanges();
 
                 return changes > 0;
             }
@@ -31,24 +33,104 @@ namespace SaveInformationAPI.Repositories
             }
         }
 
-        public Task<bool> EliminarUsuario(int id)
+        public bool EliminarUsuario(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var usuario = _context.Usuario.Find(id);
+
+                if (usuario == null)
+                {
+                    throw new ArgumentException("El ID proporcionado es incorrecto", nameof(id));
+                }
+
+                _context.Usuario.Remove(usuario);
+
+                int changes = _context.SaveChanges();
+
+                return changes > 0;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Error al eliminar el usuario en la base de datos", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error inesperado al eliminar el usuario", ex);
+            }
         }
 
-        public Task<List<Usuario>> ListarUsuarios()
+        public List<Usuario> ListarUsuarios()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var list = _context.Usuario.ToList();
+                return list;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Error al listar los usuarios en la base de datos", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error inesperado al listar los usuarios", ex);
+            }
         }
 
-        public Task<bool> ModificarInformacionUsuario(int id, Usuario usuarioActualizado)
+        public bool ModificarInformacionUsuario(int id, Usuario usuario)
         {
-            throw new NotImplementedException();
+            if (usuario == null)
+            {
+                throw new ArgumentNullException(nameof(usuario));
+            }
+
+            try
+            {
+                var usuarioActualizado = _context.Usuario.Find(id);
+
+                if (usuarioActualizado == null)
+                {
+                    throw new ArgumentException("El ID proporcionado es incorrecto", nameof(id));
+                }
+
+                _context.Usuario.Update(usuarioActualizado);
+
+                int cambios = _context.SaveChanges();
+                return cambios > 0;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception($"Error al modificar el usuario con #{id} en la base de datos", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error inesperado el modificar el usuario", ex);
+            }
         }
 
-        public Task<Usuario> VerUsuario(int id)
+        public Usuario VerUsuario(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var usuario = _context.Usuario.Find(id);
+
+                if (usuario == null)
+                {
+                    throw new ArgumentException("El ID proporcionado es incorrecto", nameof(id));
+                }
+
+                _context.SaveChanges();
+
+                return usuario;
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception($"Error al visualizar el usuario en la base de datos", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error inesperado al visualizar el usuario", ex);
+            }
         }
     }
 }

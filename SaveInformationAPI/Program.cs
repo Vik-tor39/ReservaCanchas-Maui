@@ -27,6 +27,8 @@ builder.Services.AddSwaggerGen();
 // Inyection of dependencies for the API Controllers
 builder.Services.AddScoped<CanchaRepository>();
 builder.Services.AddScoped<UsuarioRepository>();
+builder.Services.AddScoped<ReservaRepository>();
+builder.Services.AddScoped<ComplejoRepository>();
 
 var app = builder.Build();
 

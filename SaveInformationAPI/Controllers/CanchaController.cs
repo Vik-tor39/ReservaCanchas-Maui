@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Core.Types;
@@ -19,40 +20,40 @@ namespace SaveInformationAPI.Controllers
         [Route("GetAllCanchas")]
         public ActionResult<IEnumerable<Cancha>> GetAll()
         {
-            var cancha = _repository.ListarCanchas();
-            return Ok(cancha);
+            var response =  _repository.ListarCanchas();
+            return Ok(response);
         }
 
         [HttpGet]
-        [Route("GetCanchaById")]
+        [Route("GetCanchaById/{id}")]
         public ActionResult<Cancha> GetById(int id)
         {
-            var cancha = _repository.VerCancha(id);
-            return Ok(cancha);
+            var response = _repository.VerCancha(id);
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("AddNewCancha")]
-        public ActionResult<Cancha> AddNew(Cancha cancha)
+        public ActionResult<Cancha> AddNew([FromBody] Cancha cancha)
         {
             var status = _repository.AgregarCancha(cancha);
             return Ok(status);
         }
 
         [HttpPut]
-        [Route("ModifyCanchaById")]
-        public ActionResult<Cancha> ModifyById(int id, Cancha canchaActualizada)
+        [Route("ModifyCanchaById/{id}")]
+        public ActionResult<Cancha> ModifyById(int id,[FromBody] Cancha canchaActualizada)
         {
-            var status = _repository.ModificarInformacionCancha(id, canchaActualizada);
-            return Ok(status);
+            var response = _repository.ModificarInformacionCancha(id, canchaActualizada);
+            return Ok(response);
         }
 
         [HttpDelete]
-        [Route("DeleteCanchaById")]
+        [Route("DeleteCanchaById/{id}")]
         public ActionResult<Cancha> DeleteById(int id)
         {
-            var status = _repository.EliminarCancha(id);
-            return Ok(status);
+            var response = _repository.EliminarCancha(id);
+            return Ok(response);
         }
     }
 }

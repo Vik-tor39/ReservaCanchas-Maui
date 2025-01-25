@@ -20,9 +20,13 @@ namespace SaveInformationAPI.Models
         [Range(0, int.MaxValue)]
         [DataType(DataType.Currency)]
         public float? PrecioPorHora { get; set; }
+        [Required]
         [DataType(DataType.Time)]
+        [Display(Name = "Hora de Apertura")]
         public TimeSpan? HoraApertura { get; set; }
+        [Required]
         [DataType(DataType.Time)]
+        [Display(Name = "Hora de cierre")]
         public TimeSpan? HoraCierre { get; set; }
         [MaxLength(500)]
         public string? ImagenCancha { get; set; } 

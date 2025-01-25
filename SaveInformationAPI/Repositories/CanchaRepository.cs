@@ -2,6 +2,7 @@
 using SaveInformationAPI.Data;
 using SaveInformationAPI.Interfaces;
 using SaveInformationAPI.Models;
+using System.Runtime.CompilerServices;
 
 namespace SaveInformationAPI.Repositories
 {
@@ -9,15 +10,15 @@ namespace SaveInformationAPI.Repositories
     {
         private readonly ApplicationDBContext _context = context;
 
-        public async Task<bool> AgregarCancha(Cancha cancha)
+        public bool AgregarCancha(Cancha cancha)
         {
             if (cancha == null) 
                 { return false; }
 
             try
             {
-                await _context.Cancha.AddAsync(cancha);
-                int changes = await _context.SaveChangesAsync();
+                _context.Cancha.Add(cancha);
+                int changes = _context.SaveChanges();
 
                 return changes > 0;
             }
@@ -31,18 +32,18 @@ namespace SaveInformationAPI.Repositories
             }
         }
 
-        public async Task<bool> EliminarCancha(int id)
+        public bool EliminarCancha(int id)
         {
             try
             {
-                var cancha = await _context.Cancha.FindAsync(id);
+                var cancha =  _context.Cancha.Find(id);
 
                 if (cancha == null)
                     { return false; }
 
                 _context.Cancha.Remove(cancha);
 
-                int changes = await _context.SaveChangesAsync();
+                int changes = _context.SaveChanges();
 
                 return changes > 0;
             }
@@ -56,11 +57,11 @@ namespace SaveInformationAPI.Repositories
             }
         }
 
-        public async Task<List<Cancha>> ListarCanchas()
+        public List<Cancha> ListarCanchas()
         {
             try
             {
-                var list = await _context.Cancha.ToListAsync();
+                var list =  _context.Cancha.ToList();
                 return list;
             }
             catch (DbUpdateException ex)
@@ -73,7 +74,7 @@ namespace SaveInformationAPI.Repositories
             }
         }
 
-        public async Task<bool> ModificarInformacionCancha(int id, Cancha cancha)
+        public bool ModificarInformacionCancha(int id, Cancha cancha)
         {
             if (cancha == null)
             {
@@ -87,14 +88,14 @@ namespace SaveInformationAPI.Repositories
 
             try
             {
-                var canchaActualizada = await _context.Cancha.FindAsync(id);
+                var canchaActualizada =  _context.Cancha.Find(id);
 
                 if (canchaActualizada == null)
                     { return false; }
 
                 _context.Cancha.Update(canchaActualizada);
 
-                int cambios = await _context.SaveChangesAsync();
+                int cambios =  _context.SaveChanges();
                 return cambios > 0;
             }
             catch (DbUpdateException ex)
@@ -107,16 +108,16 @@ namespace SaveInformationAPI.Repositories
             }
         }
 
-        public async Task<Cancha> VerCancha(int id)
+        public Cancha VerCancha(int id)
         {
             try
             {
-                var cancha = await _context.Cancha.FindAsync(id);
+                var cancha = _context.Cancha.Find(id);
 
                 if (cancha == null)
                 { throw new ArgumentNullException(nameof(cancha)); }
                 
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
 
                 return cancha;
             }
