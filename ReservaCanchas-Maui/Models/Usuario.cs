@@ -12,7 +12,7 @@ namespace ReservaCanchas_Maui.Models
     [Table("usuario")]
     public class Usuario
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int IdUsuario { get; set; }
         [MaxLength(100)]
         public string NombreUsuario { get; set; }

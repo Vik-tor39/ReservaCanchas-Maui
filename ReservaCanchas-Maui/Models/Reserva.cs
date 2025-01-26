@@ -10,7 +10,7 @@ namespace ReservaCanchas_Maui.Models
     [Table("reserva")]
     public class Reserva
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int IdReserva { get; set; }
         public DateTime Fecha { get; set; } 
         public TimeSpan HoraInicio { get; set; } 

@@ -10,7 +10,7 @@ namespace ReservaCanchas_Maui.Models
     [Table("cancha")]
     public class Cancha
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int IdCancha { get; set; }
         [MaxLength(100)]
         public string NombreCancha { get; set; } 
