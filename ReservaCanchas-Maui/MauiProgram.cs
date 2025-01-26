@@ -23,6 +23,7 @@ namespace ReservaCanchas_Maui
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+
             string dbPathCancha = FileAccessHelper.GetLocalFilePath("cancha.db3");
             string dbPathUsuario = FileAccessHelper.GetLocalFilePath("usuario.db3");
             string dbPathComplejo = FileAccessHelper.GetLocalFilePath("complejo.db3");

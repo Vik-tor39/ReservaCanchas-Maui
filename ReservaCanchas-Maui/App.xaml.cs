@@ -14,23 +14,17 @@ namespace ReservaCanchas_Maui
         {
             InitializeComponent();
 
-            try
-            {
-                _canchaRepository = canchaRepository ?? throw new ArgumentNullException(nameof(canchaRepository));
-                _complejoRepository = complejoRepository ?? throw new ArgumentNullException(nameof(complejoRepository));
-                _reservaRepository = reservaRepository ?? throw new ArgumentNullException(nameof(reservaRepository));
-                _usuarioRepository = usuarioRepository ?? throw new ArgumentNullException(nameof(usuarioRepository));
+            _canchaRepository = canchaRepository ?? throw new ArgumentNullException(nameof(canchaRepository));
+            _complejoRepository = complejoRepository ?? throw new ArgumentNullException(nameof(complejoRepository));
+            _reservaRepository = reservaRepository ?? throw new ArgumentNullException(nameof(reservaRepository));
+            _usuarioRepository = usuarioRepository ?? throw new ArgumentNullException(nameof(usuarioRepository));
 
-                MainPage = new AppShell();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                Debug.WriteLine(ex.StackTrace);
-                throw;
-            }
+            //MainPage = new AppShell();
+        }
 
-            MainPage = new AppShell();
+        protected override Window CreateWindow(IActivationState activationState)
+        {
+            return new Window(new AppShell());
         }
     }
 }
