@@ -13,6 +13,8 @@ namespace ReservaCanchasApp.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
+        private Usuario admin;
+
         public string _dbPath;
         public string? StatusMessage { get; set; }
 
@@ -20,6 +22,14 @@ namespace ReservaCanchasApp.Repositories
         public UsuarioRepository(string dbpath)
         {
             _dbPath = dbpath;
+            admin = new Usuario
+            {
+                CorreoUsuario = "admin@admin",
+                PasswordUsuario = "admin",
+                Tipo = TipoDeUsuario.Administrador
+            };
+
+            CrearUsuario(admin);
         }
 
         private void Init()
@@ -71,7 +81,7 @@ namespace ReservaCanchasApp.Repositories
 
                 StatusMessage = string.Format("{0} record(s) added (Name: {1})", result, usuario.NombreUsuario);
 
-                return result != 0;
+                return true;
             }
             catch (Exception ex)
             {
@@ -114,9 +124,8 @@ namespace ReservaCanchasApp.Repositories
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+                return new List<Usuario>();
             }
-
-            return new List<Usuario>();
         }
 
         public Usuario ObtenerUsuarioPorId(int idUsuario)

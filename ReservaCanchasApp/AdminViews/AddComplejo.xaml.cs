@@ -39,11 +39,7 @@ public partial class AddComplejo : ContentPage
 
         App._complejoRepository.CrearComplejo(_complejo);
 
-        // Actualizar lista de complejos de administrador
-        administradorSeleccionado.ComplejosAdministrados.Add(_complejo.IdComplejo);
-        App._usuarioRepository.ActualizarUsuario(administradorSeleccionado);
-
-        Console.WriteLine($"Complejo creado: {_complejo.NombreComplejo} con {(_complejo.Canchas.Count)} canchas.");
+        Console.WriteLine($"Complejo creado: {_complejo.NombreComplejo}");
 
         await DisplayAlert("Éxito", "Complejo guardado correctamente.", "OK");
         await Navigation.PopAsync();

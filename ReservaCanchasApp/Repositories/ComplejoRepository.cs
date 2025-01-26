@@ -12,6 +12,7 @@ namespace ReservaCanchasApp.Repositories
 {
     public class ComplejoRepository : IComplejoRepository
     {
+        private Complejo _complejo;
         public string _dbPath;
         public string? StatusMessage { get; set; }
 
@@ -19,6 +20,15 @@ namespace ReservaCanchasApp.Repositories
         public ComplejoRepository(string dbpath)
         {
             _dbPath = dbpath;
+
+            _complejo = new Complejo
+            {
+                IdAdministrador = 1,
+                ImagenComplejo = "dotnet_bot.png",
+                NombreComplejo = "LDU CAMPEON"
+            };
+
+            CrearComplejo(_complejo);
         }
 
         private void Init()

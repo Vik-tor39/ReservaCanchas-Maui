@@ -21,7 +21,6 @@ namespace ReservaCanchasApp.Models
         [MaxLength(100)]
         public string PasswordUsuario { get; set; }
         public TipoDeUsuario Tipo { get; set; }
-        public List<int> ComplejosAdministrados { get; set; } = new List<int>();
     }
 
     public enum TipoDeUsuario

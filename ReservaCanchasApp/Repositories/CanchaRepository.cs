@@ -14,6 +14,7 @@ namespace ReservaCanchasApp.Repositories
 {
     public class CanchaRepository : ICanchaRepository
     {
+        private Cancha _cancha;
         public string _dbPath;
         public string? StatusMessage { get; set; }
         
@@ -21,6 +22,17 @@ namespace ReservaCanchasApp.Repositories
         public CanchaRepository(string dbpath)
         {
             _dbPath = dbpath;
+
+            _cancha = new Cancha
+            {
+                IdComplejo = 1,
+                ImagenCancha = "dotnet_bot.png",
+                NumeroJugadores = 20,
+                PrecioPorHora = 500,
+                HoraApertura = new TimeSpan(14, 0, 0),
+                HoraCierre = new TimeSpan(16, 0, 0),
+                NombreCancha = "Cancha Central"
+            };
         }
 
         private void Init()

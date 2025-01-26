@@ -73,7 +73,7 @@ public partial class ReservasPage : ContentPage
         // Verificar si el usuario es administrador y si puede gestionar la cancha
         if (_usuario.Tipo == TipoDeUsuario.Administrador &&
             _cancha.IdComplejo == _complejo.IdComplejo &&
-            _usuario.ComplejosAdministrados.Contains(_complejo.IdComplejo))
+            _complejo.IdAdministrador == _usuario.IdUsuario)
         {
             var botonCanchaAdmin = new Button
             {

@@ -16,7 +16,6 @@ namespace ReservaCanchasApp.Models
         public string NombreComplejo { get; set; }
         [MaxLength(100)]
         public string ImagenComplejo { get; set; }
-        public List<Cancha> Canchas { get; set; } = new List<Cancha>();
         public int IdAdministrador { get; set; }
     }
 }
