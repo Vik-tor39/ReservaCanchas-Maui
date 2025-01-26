@@ -1,0 +1,70 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReservaCanchasApp.Views.ReservasPage"
+             Title="Hacer Reserva">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#007BFF" Offset="0.0" />
+            <GradientStop Color="#7FDBFF" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView>
+        <StackLayout x:Name="ReservasStackLayout" Padding="20" Spacing="15">
+            <!-- Detalles de la Cancha -->
+            <Label Text="Detalles de la Cancha" FontSize="Large" FontAttributes="Bold" TextColor="#333333" HorizontalOptions="Center"/>
+            <Label Text="Nombre:" FontAttributes="Bold" TextColor="#333333" />
+            <Label x:Name="NombreCanchaLabel" TextColor="#333333" />
+
+            <Image x:Name="ImagenCanchaImage" HeightRequest="200" Aspect="AspectFill" />
+
+            <Label Text="Jugadores Máximos:" FontAttributes="Bold" TextColor="#333333" />
+            <Label x:Name="NumeroJugadoresLabel" TextColor="#333333" />
+
+            <Label Text="Horario Disponible:" FontAttributes="Bold" TextColor="#333333" />
+            <Label x:Name="HorarioLabel" TextColor="#333333" />
+
+            <Label Text="Precio por Hora:" FontAttributes="Bold" TextColor="#333333" />
+            <Label x:Name="PrecioPorHoraLabel" TextColor="#333333" />
+
+            <BoxView HeightRequest="2" BackgroundColor="#1F1E1E" HorizontalOptions="FillAndExpand" Margin="0, 10"/>
+            
+            <!-- Reservación -->
+            <Label Text="Reservar Cancha" FontSize="Large" FontAttributes="Bold" TextColor="#333333" HorizontalOptions="Center"/>
+
+            <Label Text="Nombre de Usuario:" FontAttributes="Bold" TextColor="#333333" />
+            <Label x:Name="UsuarioName" TextColor="#333333" />
+
+            <Label Text="Correo:" FontAttributes="Bold" TextColor="#333333"/>
+            <Label x:Name="UsuarioCorreo" TextColor="#333333" />
+
+            <Label Text="Fecha de Reservación" TextColor="#333333" />
+            <DatePicker 
+                x:Name="FechaPicker" 
+                MinimumDate="{Binding FechaActual}"
+                BackgroundColor="#007BFF" 
+                TextColor="#FFF" 
+                CharacterSpacing="1"
+                />
+
+            <Label Text="Hora de Inicio" TextColor="#333333" />
+            <TimePicker 
+                x:Name="HoraInicioPicker" 
+                BackgroundColor="#FFFFFF" 
+                TextColor="#333333"
+                CharacterSpacing="1"
+                />
+
+            <Label Text="Hora de Fin" TextColor="#333333" />
+            <TimePicker 
+                x:Name="HoraFinPicker" 
+                BackgroundColor="#FFFFFF" 
+                TextColor="#333333"
+                CharacterSpacing="1"
+                />
+
+            <Button Text="Confirmar Reservación" Clicked="OnConfirmarReservacionClicked" BackgroundColor="#007BFF" TextColor="#FFFFFF" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
