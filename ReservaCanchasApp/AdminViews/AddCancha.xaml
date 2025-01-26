@@ -11,7 +11,7 @@
             <GradientStop Color="#7FDBFF" Offset="1.0" />
         </LinearGradientBrush>
     </ContentPage.Background>
-
+    
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
             <Label Text="Nombre de la Cancha" TextColor="#333333"/>

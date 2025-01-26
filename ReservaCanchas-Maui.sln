@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveInformationAPI", "SaveInformationAPI\SaveInformationAPI.csproj", "{EF1228C7-3EF9-42EC-A92B-760A0479B476}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReservaCanchasApp", "..\ReservaCanchasApp\ReservaCanchasApp.csproj", "{858E065C-CBA9-4FF2-82D2-B5E22CD9738A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReservaCanchasApp", "ReservaCanchasApp\ReservaCanchasApp.csproj", "{460A9144-262B-434D-A780-70894BC92BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +17,12 @@ Global
 		{EF1228C7-3EF9-42EC-A92B-760A0479B476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF1228C7-3EF9-42EC-A92B-760A0479B476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF1228C7-3EF9-42EC-A92B-760A0479B476}.Release|Any CPU.Build.0 = Release|Any CPU
-		{858E065C-CBA9-4FF2-82D2-B5E22CD9738A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{858E065C-CBA9-4FF2-82D2-B5E22CD9738A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{858E065C-CBA9-4FF2-82D2-B5E22CD9738A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{858E065C-CBA9-4FF2-82D2-B5E22CD9738A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{858E065C-CBA9-4FF2-82D2-B5E22CD9738A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{858E065C-CBA9-4FF2-82D2-B5E22CD9738A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{460A9144-262B-434D-A780-70894BC92BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{460A9144-262B-434D-A780-70894BC92BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{460A9144-262B-434D-A780-70894BC92BBC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{460A9144-262B-434D-A780-70894BC92BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{460A9144-262B-434D-A780-70894BC92BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{460A9144-262B-434D-A780-70894BC92BBC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
