@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ReservaCanchasApp.Repositories
 {
-    internal class SQLServerRepository
+    internal class APIRepository
     {
-        public SQLServerRepository() { }
+        public APIRepository() { }
 
     }
 }
