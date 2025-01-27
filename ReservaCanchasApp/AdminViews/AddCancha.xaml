@@ -14,22 +14,22 @@
     
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
-            <Label Text="Nombre de la Cancha" TextColor="#333333"/>
+            <Label Text="Nombre de la Cancha:" TextColor="#333333"/>
             <Entry x:Name="NombreCanchaEntry" 
                    Placeholder="Introduce el nombre de la cancha" 
                    TextColor="#333"
                    PlaceholderColor="#666"
                    BackgroundColor="#FFFFFF"/>
 
-            <Label Text="Número de Jugadores" TextColor="#333333"/>
+            <Label Text="Número de Jugadores:" TextColor="#333333"/>
             <Entry x:Name="NumeroJugadoresEntry" 
                    Keyboard="Numeric" 
-                   Placeholder="Máximo número de jugadores"
+                   Placeholder="Número máximo de jugadores"
                    TextColor="#333"
                    PlaceholderColor="#666"
                    BackgroundColor="#FFFFFF"/>
 
-            <Label Text="Precio por Hora" TextColor="#333333"/>
+            <Label Text="Precio por Hora:" TextColor="#333333"/>
             <Entry x:Name="PrecioPorHoraEntry" 
                    Keyboard="Numeric" 
                    Placeholder="Introduce el precio por hora" 
@@ -37,17 +37,17 @@
                    PlaceholderColor="#666"
                    BackgroundColor="#FFFFFF"/>
 
-            <Label Text="Hora de Apertura" TextColor="#333333"/>
+            <Label Text="Hora de Apertura:" TextColor="#333333"/>
             <TimePicker x:Name="HoraAperturaPicker" 
                         BackgroundColor="#FFFFFF"
                         TextColor="#333333"/>
 
-            <Label Text="Hora de Cierre" TextColor="#333333"/>
+            <Label Text="Hora de Cierre:" TextColor="#333333"/>
             <TimePicker x:Name="HoraCierrePicker" 
                         BackgroundColor="#FFFFFF"
                         TextColor="#333333"/>
 
-            <Label Text="Imagen de la Cancha" TextColor="#333333"/>
+            <Label Text="Imagen de la Cancha:" TextColor="#333333"/>
             <Entry x:Name="ImagenCanchaEntry" 
                    Placeholder="URL de la imagen de la cancha" 
                    TextColor="#333"

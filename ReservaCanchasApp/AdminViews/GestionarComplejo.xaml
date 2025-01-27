@@ -14,14 +14,14 @@
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
-            <Label Text="Actualizar Nombre del Complejo" TextColor="#333333"/>
+            <Label Text="Actualizar Nombre del Complejo:" TextColor="#333333"/>
             <Entry x:Name="NombreComplejoEntry" 
                    Placeholder="Introduce el nuevo nombre" 
                    TextColor="#333"
                    PlaceholderColor="#666"
                    BackgroundColor="#FFFFFF"/>
 
-            <Label Text="Actualizar Imagen del Complejo" TextColor="#333333"/>
+            <Label Text="Actualizar Imagen del Complejo:" TextColor="#333333"/>
             <Entry x:Name="ImagenComplejoEntry" 
                    Placeholder="Introduce la nueva URL de la imagen" 
                    TextColor="#333"

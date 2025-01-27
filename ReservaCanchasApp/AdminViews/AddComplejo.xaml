@@ -14,27 +14,27 @@
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
-            <Label Text="Nombre del Complejo" TextColor="#333333"/>
+            <Label Text="Nombre del Complejo:" TextColor="#333333"/>
             <Entry x:Name="NombreComplejoEntry" 
                    Placeholder="Introduce el nombre" 
                    TextColor="#333"
                    PlaceholderColor="#666"
                    BackgroundColor="#FFFFFF"/>
 
-            <Label Text="Imagen del Complejo" TextColor="#333333"/>
+            <Label Text="Imagen del Complejo:" TextColor="#333333"/>
             <Entry x:Name="ImagenComplejoEntry" 
-                   Placeholder="URL de la imagen" 
+                   Placeholder="Inserta el URL de la imagen" 
                    TextColor="#333"
                    PlaceholderColor="#666"
                    BackgroundColor="#FFFFFF"/>
 
-            <Label Text="Selecciona un Administrador" TextColor="#333333"/>
+            <Label Text="Selecciona un Administrador:" TextColor="#333333"/>
             <Picker x:Name="AdministradorPicker" 
                     ItemDisplayBinding="{Binding NombreUsuario}" 
                     BackgroundColor="#FFFFFF"
                     TextColor="#333333" />
 
-            <Button Text="Guardar Complejo" 
+            <Button Text="Guardar Complejo:" 
                     BackgroundColor="#007BFF"
                     TextColor="#FFFFFF"
                     Clicked="OnGuardarComplejoClicked" />
