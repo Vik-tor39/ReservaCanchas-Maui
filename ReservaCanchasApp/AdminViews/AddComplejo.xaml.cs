@@ -15,7 +15,6 @@ public partial class AddComplejo : ContentPage
         _complejo = new Complejo();
         _administradores = CargarAdministradores();
         _apiRepository = new APIRepository();
-
         AdministradorPicker.ItemsSource = _administradores;
     }
     private List<Usuario> CargarAdministradores()
