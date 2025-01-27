@@ -7,8 +7,9 @@ namespace ReservaCanchasApp.AdminViews
 {
     public partial class GestionarUsers : ContentPage
     {
-        public ObservableCollection<Usuario> Usuarios { get; set; }
+        private APIRepository _apiRepository;
 
+        public ObservableCollection<Usuario> Usuarios { get; set; }
         public ICommand EliminarUsuarioCommand { get; private set; }
 
         public GestionarUsers()
@@ -17,6 +18,7 @@ namespace ReservaCanchasApp.AdminViews
 
             Usuarios = new ObservableCollection<Usuario>(App._usuarioRepository.ObtenerTodosLosUsuarios());
             EliminarUsuarioCommand = new Command<int>(EliminarUsuario);
+            _apiRepository = new APIRepository();
 
             BindingContext = this;
         }
@@ -38,6 +40,7 @@ namespace ReservaCanchasApp.AdminViews
                 {
                     // Llama al repositorio para eliminar el usuario
                     App._usuarioRepository.EliminarUsuario(idUsuario);
+                    //await _apiRepository.EliminarUsuarioAsync(idUsuario);
 
                     // Elimina de la colección observable
                     var usuario = Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);

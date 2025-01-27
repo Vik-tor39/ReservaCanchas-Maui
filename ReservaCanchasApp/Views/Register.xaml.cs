@@ -5,9 +5,11 @@ namespace ReservaCanchasApp.Views;
 
 public partial class Register : ContentPage
 {
+    private APIRepository _apiRepository;
     public Register()
 	{
 		InitializeComponent();
+        _apiRepository = new APIRepository();
     }
     private async void OnLoginTapped(object sender, EventArgs e)
     {
@@ -50,10 +52,17 @@ public partial class Register : ContentPage
 
         // Guardar el usuario en el archivo JSON
         bool usuarioCreado = App._usuarioRepository.CrearUsuario(nuevoUsuario);
+        bool confApi = await _apiRepository.AgregarUsuarioAsync(nuevoUsuario);
 
         if (!usuarioCreado)
         {
             await DisplayAlert("Error", "El correo ya está registrado.", "OK");
+            return;
+        }
+
+        if (!confApi)
+        {
+            await DisplayAlert("Error", "La información no se cargo en la API", "OK");
             return;
         }
 

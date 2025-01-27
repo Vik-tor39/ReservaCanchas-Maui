@@ -6,6 +6,7 @@ namespace ReservaCanchasApp.AdminViews;
 
 public partial class AddComplejo : ContentPage
 {
+    public APIRepository _apiRepository;
     public Complejo _complejo;
     public List<Usuario> _administradores;
     public AddComplejo()
@@ -13,6 +14,7 @@ public partial class AddComplejo : ContentPage
 		InitializeComponent();
         _complejo = new Complejo();
         _administradores = CargarAdministradores();
+        _apiRepository = new APIRepository();
 
         AdministradorPicker.ItemsSource = _administradores;
     }
@@ -37,7 +39,22 @@ public partial class AddComplejo : ContentPage
         _complejo.ImagenComplejo = ImagenComplejoEntry.Text;
         _complejo.IdAdministrador = administradorSeleccionado.IdUsuario;
 
-        App._complejoRepository.CrearComplejo(_complejo);
+        
+
+        bool nuevoComplejo = App._complejoRepository.CrearComplejo(_complejo);
+        bool confApi = await _apiRepository.AgregarComplejoAsync(_complejo);
+
+        if (!nuevoComplejo)
+        {
+            await DisplayAlert("Error", "No fue posible guardar la información.", "OK");
+            return;
+        }
+
+        if (!confApi)
+        {
+            await DisplayAlert("Error", "La información no se cargo en la API", "OK");
+            return;
+        }
 
         Console.WriteLine($"Complejo creado: {_complejo.NombreComplejo}");
 

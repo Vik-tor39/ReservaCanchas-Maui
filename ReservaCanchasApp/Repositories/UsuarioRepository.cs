@@ -14,6 +14,7 @@ namespace ReservaCanchasApp.Repositories
     public class UsuarioRepository : IUsuarioRepository
     {
         private Usuario admin;
+        private Usuario superAdmin;
 
         public string _dbPath;
         public string? StatusMessage { get; set; }
@@ -29,7 +30,15 @@ namespace ReservaCanchasApp.Repositories
                 Tipo = TipoDeUsuario.Administrador
             };
 
+            superAdmin = new Usuario
+            {
+                CorreoUsuario = "super@admin",
+                PasswordUsuario = "admin",
+                Tipo = TipoDeUsuario.Superusuario
+            };
+
             CrearUsuario(admin);
+            CrearUsuario(superAdmin);
         }
 
         private void Init()

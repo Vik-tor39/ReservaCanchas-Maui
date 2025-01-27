@@ -5,6 +5,7 @@ namespace ReservaCanchasApp.AdminViews;
 
 public partial class GestionarComplejo : ContentPage
 {
+	private APIRepository _apiRepository;
 	public Complejo _complejo;
 
 	public GestionarComplejo(Complejo complejo)
@@ -31,6 +32,7 @@ public partial class GestionarComplejo : ContentPage
 
         // Guardar los cambios en el repositorio
         App._complejoRepository.ActualizarComplejo(_complejo);
+        //await _apiRepository.ModificarComplejoAsync(_complejo.IdComplejo, _complejo);
 
         await DisplayAlert("Éxito", "Los datos del complejo se han actualizado correctamente.", "OK");
         Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
