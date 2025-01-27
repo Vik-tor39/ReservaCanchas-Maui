@@ -7,7 +7,7 @@ namespace SaveInformationAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReservaContoller(ReservaRepository repository) : ControllerBase
+    public class ReservaController(ReservaRepository repository) : ControllerBase
     {
         private readonly IReservaRepository _repository = repository;
 
