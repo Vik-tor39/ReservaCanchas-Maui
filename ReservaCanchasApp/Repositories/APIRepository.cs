@@ -4,6 +4,7 @@ using ReservaCanchasApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace ReservaCanchasApp.Repositories
 {
     public class APIRepository : IAPIRepository
     {
-        HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
         public APIRepository() 
         {
             _httpClient = new HttpClient();
@@ -22,32 +23,39 @@ namespace ReservaCanchasApp.Repositories
             // URL de la API
             string url = "http://localhost:5002/api/Cancha/AddNewCancha";
 
-            cancha.IdCancha = 0;
+            CanchaAPI canchaAPI = new CanchaAPI()
+            {
+                idComplejo = cancha.IdComplejo,
+                imagenCancha = cancha.ImagenCancha,
+                horaApertura = cancha.HoraApertura.ToString(),
+                horaCierre = cancha.HoraCierre.ToString(),
+                precioPorHora = (int) cancha.PrecioPorHora,
+                nombreCancha = cancha.NombreCancha,
+                numeroJugadores = cancha.NumeroJugadores,
+            };
 
             // Serializar el objeto a JSON
-            string jsonData = JsonConvert.SerializeObject(cancha);
+            string jsonData = JsonConvert.SerializeObject(canchaAPI);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                // Enviar la solicitud POST
-                HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsJsonAsync<CanchaAPI>(url, canchaAPI, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Cancha agregada correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -58,32 +66,35 @@ namespace ReservaCanchasApp.Repositories
             // URL de la API
             string url = "http://localhost:5002/api/Complejo/AddNewComplejo";
 
-            complejo.IdComplejo = 0;
+            ComplejoAPI complejoAPI = new ComplejoAPI()
+            {
+                idAdministrador = complejo.IdAdministrador,
+                imagenComplejo = complejo.ImagenComplejo,
+                nombreComplejo = complejo.NombreComplejo,
+            };
 
             // Serializar el objeto a JSON
-            string jsonData = JsonConvert.SerializeObject(complejo);
+            string jsonData = JsonConvert.SerializeObject(complejoAPI);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                // Enviar la solicitud POST
-                HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsJsonAsync<ComplejoAPI>(url, complejoAPI, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Complejo agregado correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -92,32 +103,38 @@ namespace ReservaCanchasApp.Repositories
             // URL de la API
             string url = "http://localhost:5002/api/Reserva/AddNewReserva";
 
-            reserva.IdReserva = 0;
+            ReservaAPI reservaAPI = new ReservaAPI()
+            {
+                idUsuario = reserva.IdUsuario,
+                idCancha = reserva.IdCancha,
+                fecha = reserva.Fecha,
+                horaFin = reserva.HoraFin.ToString(),
+                horaInicio = reserva.HoraInicio.ToString(),
+            };
+
 
             // Serializar el objeto a JSON
-            string jsonData = JsonConvert.SerializeObject(reserva);
+            string jsonData = JsonConvert.SerializeObject(reservaAPI);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                // Enviar la solicitud POST
-                HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsJsonAsync<ReservaAPI>(url, reservaAPI, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Reserva agregada correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -126,34 +143,54 @@ namespace ReservaCanchasApp.Repositories
             // URL de la API
             string url = "http://localhost:5002/api/Usuario/AddNewUsuario";
 
-            // Eliminar el ID de usuario
-            usuario.IdUsuario = 0;
-            usuario.Tipo = 0;
+            int userType = 0;
+
+            if (usuario.Tipo.Equals(TipoDeUsuario.Normal))
+            {
+                userType = 0;
+            }
+
+            if (usuario.Tipo.Equals(TipoDeUsuario.Administrador))
+            {
+                userType = 1;
+            }
+
+            if (usuario.Tipo.Equals(TipoDeUsuario.Superusuario))
+            {
+                userType = 2;
+            }
+
+
+            UsuarioAPI usuarioAPI = new UsuarioAPI()
+            {
+                nombreUsuario = usuario.NombreUsuario,
+                correoUsuario = usuario.CorreoUsuario,
+                passwordUsuario = usuario.PasswordUsuario,
+                tipo = userType,
+            };
 
             // Serializar el objeto a JSON
-            string jsonData = JsonConvert.SerializeObject(usuario);
+            string jsonData = JsonConvert.SerializeObject(usuarioAPI);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                // Enviar la solicitud POST
-                HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsJsonAsync<UsuarioAPI>(url,usuarioAPI,default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Usuario agregado correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -162,26 +199,24 @@ namespace ReservaCanchasApp.Repositories
             // URL de la API con el ID de la cancha a eliminar
             string url = $"http://localhost:5002/api/Cancha/DeleteCanchaById/{idCancha}";
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                // Enviar la solicitud DELETE
-                HttpResponseMessage response = await _httpClient.DeleteAsync(url);
+                try
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(url,default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Cancha eliminada correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error al eliminar la cancha: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -189,51 +224,49 @@ namespace ReservaCanchasApp.Repositories
         {
             string url = $"http://localhost:5002/api/Complejo/DeleteComplejoById/{idComplejo}";
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.DeleteAsync(url);
+                try
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(url, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Complejo eliminado correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error al eliminar el complejo: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
-            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
+            }            
         }
 
         public async Task<bool> EliminarReservaAsync(int idReserva)
         {
             string url = $"http://localhost:5002/api/Reserva/DeleteReservaById/{idReserva}";
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.DeleteAsync(url);
+                try
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(url, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Reserva eliminada correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error al eliminar la reserva: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -241,25 +274,24 @@ namespace ReservaCanchasApp.Repositories
         {
             string url = $"http://localhost:5002/api/Usuario/DeleteUsuarioById/{idUsuario}";
 
-            try
+            using(HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.DeleteAsync(url);
+                try
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(url, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Usuario eliminado correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error al eliminar el usuario: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -267,59 +299,75 @@ namespace ReservaCanchasApp.Repositories
         {
             string url = $"http://localhost:5002/api/Cancha/ModifyCanchaById/{idCancha}";
 
+            CanchaAPI canchaAPI = new CanchaAPI()
+            {
+                idCancha = idCancha,
+                idComplejo = cancha.IdComplejo,
+                imagenCancha = cancha.ImagenCancha,
+                horaApertura = cancha.HoraApertura.ToString(),
+                horaCierre = cancha.HoraCierre.ToString(),
+                precioPorHora = (int)cancha.PrecioPorHora,
+                nombreCancha = cancha.NombreCancha,
+                numeroJugadores = cancha.NumeroJugadores,
+            };
 
             string jsonData = JsonConvert.SerializeObject(cancha);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.PutAsync(url, content);
+                try
+                {
+                    HttpResponseMessage response = await client.PutAsJsonAsync<CanchaAPI>(url, canchaAPI, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Cancha modificada correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
-            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
+            }          
         }
 
         public async Task<bool> ModificarComplejoAsync(int idComplejo, Complejo complejo)
         {
             string url = $"http://localhost:5002/api/Complejo/ModifyComplejoById/{idComplejo}";
 
+            ComplejoAPI complejoAPI = new ComplejoAPI()
+            {
+                idComplejo = idComplejo,
+                idAdministrador = complejo.IdAdministrador,
+                imagenComplejo = complejo.ImagenComplejo,
+                nombreComplejo = complejo.NombreComplejo,
+            };
 
             string jsonData = JsonConvert.SerializeObject(complejo);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.PutAsync(url, content);
+                try
+                {
+                    HttpResponseMessage response = await client.PutAsJsonAsync<ComplejoAPI>(url, complejoAPI, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Complejo modificado correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -327,29 +375,37 @@ namespace ReservaCanchasApp.Repositories
         {
             string url = $"http://localhost:5002/api/Reserva/ModifyReservaById/{idReserva}";
 
+            ReservaAPI reservaAPI = new ReservaAPI()
+            {
+                idReserva = idReserva,
+                idUsuario = reserva.IdUsuario,
+                idCancha = reserva.IdCancha,
+                fecha = reserva.Fecha,
+                horaFin = reserva.HoraFin.ToString(),
+                horaInicio = reserva.HoraInicio.ToString(),
+            };
 
             string jsonData = JsonConvert.SerializeObject(reserva);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.PutAsync(url, content);
+                try
+                {
+                    HttpResponseMessage response = await client.PutAsJsonAsync<ReservaAPI>(url, reservaAPI, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Reserva modificada correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
 
@@ -357,29 +413,53 @@ namespace ReservaCanchasApp.Repositories
         {
             string url = $"http://localhost:5002/api/Usuario/ModifyUsuarioById/{idUsuario}";
 
+            int userType = 0;
+
+            if (usuario.Tipo.Equals(TipoDeUsuario.Normal))
+            {
+                userType = 0;
+            }
+
+            if (usuario.Tipo.Equals(TipoDeUsuario.Administrador))
+            {
+                userType = 1;
+            }
+
+            if (usuario.Tipo.Equals(TipoDeUsuario.Superusuario))
+            {
+                userType = 2;
+            }
+
+            UsuarioAPI usuarioAPI = new UsuarioAPI()
+            {
+                idUsuario = idUsuario,
+                nombreUsuario = usuario.NombreUsuario,
+                correoUsuario = usuario.CorreoUsuario,
+                passwordUsuario = usuario.PasswordUsuario,
+                tipo = userType,
+            };
 
             string jsonData = JsonConvert.SerializeObject(usuario);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await _httpClient.PutAsync(url, content);
+                try
+                {
+                    HttpResponseMessage response = await client.PutAsJsonAsync<UsuarioAPI>(url, usuarioAPI, default);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Usuario modificado correctamente.");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+                }
             }
         }
     }

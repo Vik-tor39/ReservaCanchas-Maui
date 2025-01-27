@@ -25,8 +25,8 @@ namespace ReservaCanchasApp.Models
 
     public enum TipoDeUsuario
     {
-        Normal, 
-        Administrador, 
+        Normal,
+        Administrador,
         Superusuario
     }
 }
