@@ -9,18 +9,18 @@ namespace ReservaCanchasApp.Interfaces
 {
     public interface IAPIRepository
     {
-        public bool AgregarComplejo(Complejo complejo);
-        public bool AgregarCancha(Cancha cancha);
-        public bool AgregarReserva(Reserva reserva);
-        public bool AgregarUsuario(Usuario usuario);
-        public bool EliminarComplejo(int idComplejo);
-        public bool EliminarCancha(int idCancha);
-        public bool EliminarReserva(int idReserva);
-        public bool EliminarUsuario(int idUsuario);
-        public bool ModificarComplejo(int idComplejo, Complejo complejo);
-        public bool ModificarCancha(int idCancha, Cancha cancha);
-        public bool ModificarReserva(int idReserva, Reserva reserva);
-        public bool ModificarUsuario(int idUsuario, Usuario usuario);
+        Task<bool> AgregarComplejoAsync(Complejo complejo);
+        Task<bool> AgregarCanchaAsync(Cancha cancha);
+        Task<bool> AgregarReservaAsync(Reserva reserva);
+        Task<bool> AgregarUsuarioAsync(Usuario usuario);
+        Task<bool> EliminarComplejoAsync(int idComplejo);
+        Task<bool> EliminarCanchaAsync(int idCancha);
+        Task<bool> EliminarReservaAsync(int idReserva);
+        Task<bool> EliminarUsuarioAsync(int idUsuario);
+        Task<bool> ModificarComplejoAsync(int idComplejo, Complejo complejo);
+        Task<bool> ModificarCanchaAsync(int idCancha, Cancha cancha);
+        Task<bool> ModificarReservaAsync(int idReserva, Reserva reserva);
+        Task<bool> ModificarUsuarioAsync(int idUsuario, Usuario usuario);
 
     }
 }

@@ -12,8 +12,8 @@ using SaveInformationAPI.Data;
 namespace SaveInformationAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250124013635_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20250127032540_Changes_Structure_DB")]
+    partial class Changes_Structure_DB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,6 @@ namespace SaveInformationAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCancha"));
 
-                    b.Property<int?>("ComplejoIdComplejo")
-                        .HasColumnType("int");
-
                     b.Property<TimeSpan>("HoraApertura")
                         .HasColumnType("time");
 
@@ -46,23 +43,20 @@ namespace SaveInformationAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImagenCancha")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("NombreCancha")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("NumeroJugadores")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("PrecioPorHora")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<float?>("PrecioPorHora")
+                        .HasColumnType("real");
 
                     b.HasKey("IdCancha");
-
-                    b.HasIndex("ComplejoIdComplejo");
 
                     b.ToTable("Cancha");
                 });
@@ -80,8 +74,8 @@ namespace SaveInformationAPI.Migrations
 
                     b.Property<string>("ImagenComplejo")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("NombreComplejo")
                         .IsRequired()
@@ -116,12 +110,7 @@ namespace SaveInformationAPI.Migrations
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
-                    b.Property<int?>("canchaIdCancha")
-                        .HasColumnType("int");
-
                     b.HasKey("IdReserva");
-
-                    b.HasIndex("canchaIdCancha");
 
                     b.ToTable("Reserva");
                 });
@@ -133,10 +122,6 @@ namespace SaveInformationAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUsuario"));
-
-                    b.PrimitiveCollection<string>("ComplejosAdministrados")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CorreoUsuario")
                         .IsRequired()
@@ -155,34 +140,9 @@ namespace SaveInformationAPI.Migrations
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
-                    b.Property<string>("tipoUsuario")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("IdUsuario");
 
                     b.ToTable("Usuario");
-                });
-
-            modelBuilder.Entity("SaveInformationAPI.Models.Cancha", b =>
-                {
-                    b.HasOne("SaveInformationAPI.Models.Complejo", null)
-                        .WithMany("Canchas")
-                        .HasForeignKey("ComplejoIdComplejo");
-                });
-
-            modelBuilder.Entity("SaveInformationAPI.Models.Reserva", b =>
-                {
-                    b.HasOne("SaveInformationAPI.Models.Cancha", "cancha")
-                        .WithMany()
-                        .HasForeignKey("canchaIdCancha");
-
-                    b.Navigation("cancha");
-                });
-
-            modelBuilder.Entity("SaveInformationAPI.Models.Complejo", b =>
-                {
-                    b.Navigation("Canchas");
                 });
 #pragma warning restore 612, 618
         }

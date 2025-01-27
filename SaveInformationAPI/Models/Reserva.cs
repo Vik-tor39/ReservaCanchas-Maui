@@ -22,11 +22,11 @@ namespace SaveInformationAPI.Models
         [DataType(DataType.Time)]
         [Display(Name = "Hora de Fin")]
         public TimeSpan HoraFin { get; set; }
-        public Usuario? usuario { get; set; }
-        [ForeignKey(nameof(Usuario))]
+        //public Usuario? usuario { get; set; }
+        //[ForeignKey(nameof(Usuario))]
         public int IdUsuario { get; set; }
-        public Cancha? cancha { get; set; }
-        [ForeignKey(nameof(Cancha))]
+        //public Cancha? cancha { get; set; }
+        //[ForeignKey(nameof(Cancha))]
         public int IdCancha { get; set; } 
     }
 }

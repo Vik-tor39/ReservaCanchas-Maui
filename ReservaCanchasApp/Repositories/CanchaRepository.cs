@@ -33,6 +33,8 @@ namespace ReservaCanchasApp.Repositories
                 HoraCierre = new TimeSpan(16, 0, 0),
                 NombreCancha = "Cancha Central"
             };
+
+            CrearCancha(_cancha);
         }
 
         private void Init()

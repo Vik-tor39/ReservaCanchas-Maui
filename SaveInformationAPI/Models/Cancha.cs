@@ -30,8 +30,8 @@ namespace SaveInformationAPI.Models
         public TimeSpan? HoraCierre { get; set; }
         [MaxLength(500)]
         public string? ImagenCancha { get; set; } 
-        public Complejo? complejo { get; set; }
-        [ForeignKey(nameof(Complejo))]
+        //public Complejo? complejo { get; set; }
+        //[ForeignKey(nameof(Complejo))]
         public int IdComplejo { get; set; }
     }
 }

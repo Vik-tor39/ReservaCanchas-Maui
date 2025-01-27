@@ -5,11 +5,13 @@ namespace ReservaCanchasApp.AdminViews;
 
 public partial class GestionarCancha : ContentPage
 {
+    private APIRepository _apiRepository;
     public Cancha? _cancha;
     public GestionarCancha(int idCancha)
     {
         InitializeComponent();
         _cancha = App._canchaRepository.ObtenerCanchaPorId(idCancha);
+        _apiRepository = new APIRepository();
         CargarDetallesCancha();
     }
 
@@ -41,7 +43,8 @@ public partial class GestionarCancha : ContentPage
                 await DisplayAlert("Éxito", "La cancha se ha actualizado correctamente.", "OK");
             }
 
-            await DisplayAlert("Error", "No fue posible agregar una nueva cancha", "OK");
+            await DisplayAlert("Error", "No fue posible agregar una nueva cancha", "OK");           
+
         }
 
         Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count - 2]);
@@ -65,7 +68,14 @@ public partial class GestionarCancha : ContentPage
             if (confirmacion)
             {
                 // Llama al repositorio para eliminar la cancha
-                App._canchaRepository.EliminarCancha(_cancha.IdCancha);
+
+                bool nuevaCancha = App._canchaRepository.EliminarCancha(_cancha.IdCancha);
+
+                if (!nuevaCancha)
+                {
+                    await DisplayAlert("Error", "No fue posible eliminar la información.", "OK");
+                    return;
+                }
 
                 // Opcional: Mostrar mensaje de éxito
                 await DisplayAlert("Éxito", "Cancha eliminada correctamente.", "OK");
