@@ -43,7 +43,7 @@ public partial class CanchasPage : ContentPage
     {
         // Botón específico para administrador
         if (_usuario.Tipo == TipoDeUsuario.Administrador &&
-            _usuario.ComplejosAdministrados.Contains(_complejo.IdComplejo))
+            _complejo.IdAdministrador == _usuario.IdUsuario)
         {
             var botonAdmin = new Button
             {

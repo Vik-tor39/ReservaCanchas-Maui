@@ -13,6 +13,7 @@ namespace ReservaCanchasApp.Repositories
 {
     public class ReservaRepository : IReservaRepository
     {
+        private Reserva _reserva;
         public string _dbPath;
         public string? StatusMessage { get; set; }
 
@@ -20,6 +21,18 @@ namespace ReservaCanchasApp.Repositories
         public ReservaRepository(string dbpath)
         {
             _dbPath = dbpath;
+
+            _reserva = new Reserva
+            {
+                Fecha = DateTime.Today.AddDays(3),
+                HoraInicio = new TimeSpan(14, 0, 0),
+                HoraFin = new TimeSpan(16, 0, 0),
+                IdCancha = 1,
+                IdUsuario = 2,
+                EstaDisponible = false
+            };
+
+            CrearReserva(_reserva);
         }
 
         private void Init()

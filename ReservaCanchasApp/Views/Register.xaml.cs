@@ -51,7 +51,7 @@ public partial class Register : ContentPage
         // Guardar el usuario en el archivo JSON
         bool usuarioCreado = App._usuarioRepository.CrearUsuario(nuevoUsuario);
 
-        if (usuarioCreado)
+        if (!usuarioCreado)
         {
             await DisplayAlert("Error", "El correo ya está registrado.", "OK");
             return;
