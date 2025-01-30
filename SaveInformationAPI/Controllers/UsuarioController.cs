@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SaveInformationAPI.Data;
+using Azure;
+using Microsoft.AspNetCore.Mvc;
 using SaveInformationAPI.Interfaces;
 using SaveInformationAPI.Models;
 using SaveInformationAPI.Repositories;
@@ -22,7 +22,7 @@ namespace SaveInformationAPI.Controllers
 
         [HttpGet]
         [Route("GetUsuarioById/{id}")]
-        public ActionResult<Cancha> GetById(int id)
+        public ActionResult<Usuario> GetById(int id)
         {
             var response = _repository.VerUsuario(id);
             return Ok(response);
@@ -54,3 +54,4 @@ namespace SaveInformationAPI.Controllers
 
     }
 }
+

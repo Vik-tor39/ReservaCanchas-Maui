@@ -30,10 +30,10 @@ namespace SaveInformationAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCancha"));
 
-                    b.Property<TimeSpan?>("HoraApertura")
+                    b.Property<TimeSpan>("HoraApertura")
                         .HasColumnType("time");
 
-                    b.Property<TimeSpan?>("HoraCierre")
+                    b.Property<TimeSpan>("HoraCierre")
                         .HasColumnType("time");
 
                     b.Property<int>("IdComplejo")
@@ -53,12 +53,7 @@ namespace SaveInformationAPI.Migrations
                     b.Property<float?>("PrecioPorHora")
                         .HasColumnType("real");
 
-                    b.Property<int?>("complejoIdComplejo")
-                        .HasColumnType("int");
-
                     b.HasKey("IdCancha");
-
-                    b.HasIndex("complejoIdComplejo");
 
                     b.ToTable("Cancha");
                 });
@@ -84,12 +79,7 @@ namespace SaveInformationAPI.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("administradorIdUsuario")
-                        .HasColumnType("int");
-
                     b.HasKey("IdComplejo");
-
-                    b.HasIndex("administradorIdUsuario");
 
                     b.ToTable("Complejo");
                 });
@@ -117,17 +107,7 @@ namespace SaveInformationAPI.Migrations
                     b.Property<int>("IdUsuario")
                         .HasColumnType("int");
 
-                    b.Property<int?>("canchaIdCancha")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("usuarioIdUsuario")
-                        .HasColumnType("int");
-
                     b.HasKey("IdReserva");
-
-                    b.HasIndex("canchaIdCancha");
-
-                    b.HasIndex("usuarioIdUsuario");
 
                     b.ToTable("Reserva");
                 });
@@ -139,10 +119,6 @@ namespace SaveInformationAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUsuario"));
-
-                    b.PrimitiveCollection<string>("ComplejosAdministrados")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CorreoUsuario")
                         .IsRequired()
@@ -161,46 +137,9 @@ namespace SaveInformationAPI.Migrations
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
 
-                    b.Property<string>("tipoUsuario")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("IdUsuario");
 
                     b.ToTable("Usuario");
-                });
-
-            modelBuilder.Entity("SaveInformationAPI.Models.Cancha", b =>
-                {
-                    b.HasOne("SaveInformationAPI.Models.Complejo", "complejo")
-                        .WithMany()
-                        .HasForeignKey("complejoIdComplejo");
-
-                    b.Navigation("complejo");
-                });
-
-            modelBuilder.Entity("SaveInformationAPI.Models.Complejo", b =>
-                {
-                    b.HasOne("SaveInformationAPI.Models.Usuario", "administrador")
-                        .WithMany()
-                        .HasForeignKey("administradorIdUsuario");
-
-                    b.Navigation("administrador");
-                });
-
-            modelBuilder.Entity("SaveInformationAPI.Models.Reserva", b =>
-                {
-                    b.HasOne("SaveInformationAPI.Models.Cancha", "cancha")
-                        .WithMany()
-                        .HasForeignKey("canchaIdCancha");
-
-                    b.HasOne("SaveInformationAPI.Models.Usuario", "usuario")
-                        .WithMany()
-                        .HasForeignKey("usuarioIdUsuario");
-
-                    b.Navigation("cancha");
-
-                    b.Navigation("usuario");
                 });
 #pragma warning restore 612, 618
         }

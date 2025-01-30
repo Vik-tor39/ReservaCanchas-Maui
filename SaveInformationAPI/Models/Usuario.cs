@@ -23,9 +23,6 @@ namespace SaveInformationAPI.Models
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d.,\-@$!%*#?&]{8,}$")]
         public string? PasswordUsuario { get; set; }        
         public TipoDeUsuario Tipo { get; set; }
-        [Required]
-        public string? tipoUsuario { get; set; }
-        public List<int> ComplejosAdministrados { get; set; } = new List<int>();
     }
 
     public enum TipoDeUsuario
